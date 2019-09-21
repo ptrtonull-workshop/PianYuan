@@ -8,7 +8,7 @@ to clone this rep's source code
 
 use 
 ```pip
-pip -r install requirements.txt
+pip install -r requirements.txt
 ```
 to download package we need
 
