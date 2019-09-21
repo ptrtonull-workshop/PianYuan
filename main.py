@@ -6,7 +6,7 @@ mainWeb = 'http://www.pianyuan.la'
 # get film page from main page's recommend
 # page : page number of main recommend list
 # number : the film position in page
-def get_recommend(pagenumber):
+def get_recommend(page, number):
     if page == 1:
         web = mainWeb
     else:
