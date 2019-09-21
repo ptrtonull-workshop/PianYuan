@@ -21,10 +21,9 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        pip install requests
     - name: Lint with flake8
       run: |
         pip install flake8
-        flake8  --ignore E501 main.py
+        flake8  --ignore E501,E262  main.py
         python main.py
 
