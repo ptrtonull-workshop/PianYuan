@@ -3,7 +3,7 @@ you should run
 ```pip
 flake8  --ignore E501,E262  main.py
 ```
-before push to github
+before push to github ro make sure your code is 
 ### about ignore 
 ```
 E262 inline comment should start with '# '
