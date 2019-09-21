@@ -50,13 +50,15 @@ git push origin bug#1
 ```
 来推送该分支到Github
 
-推送到GitHub之后，我们将`bug#1` 通过pull request 与dev分支合并，合并完成之后，我们在本地执行
+切换到Github，我们再将`bug#1` 通过`pull request`与`dev`分支合并，在这个过程中，我们的CI会检查代码。
+
+合并完成之后，我们在本地执行
 ```git
 git push origin :bug#1
 ```
 来远程删除在Github上的多余的分支
 
-切换到Github，我们再将`bug#1` 通过`pull request`与`dev`分支合并，在这个过程中，我们的CI会检查代码
+
 
 
 
