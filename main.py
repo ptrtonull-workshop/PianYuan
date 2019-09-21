@@ -21,7 +21,7 @@ def get_recommend(page, number):
 
 def get_film_download(url, form):
     response = requests.get(url)
-    soup = BeautifulSoup(response.text,'html.parser')
+    soup = BeautifulSoup(response.text, 'html.parser')
     if form == 'url':
         film = soup.find_all(name='a', attrs={'class': 'btn btn-danger btn-sm'})
         return mainWeb + film[0]['href']
