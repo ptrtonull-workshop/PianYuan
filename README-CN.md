@@ -1,5 +1,5 @@
 # 开发
-## 下载 
+## 开发 
 执行
 ```git
 git clone https://github.com/ptrtonull-workshop/PianYuan.git
@@ -7,6 +7,8 @@ cd ./PianYuan
 pip install -r requirements.txt
 ```
 来克隆本项目并且按照本项目需要的第三方包
+
+注意，请确保`./vscode/settings.json`里的路径与你电脑内的`python`路径一致
 ## 测试
 在本地文件夹中执行
 ```
