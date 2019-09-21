@@ -9,7 +9,7 @@ pip install -r requirements.txt
 ```
 来克隆本项目并且按照本项目需要的第三方包
 
-注意，请确保`./vscode/settings.json`里的路径与你电脑内的`python`路径一致
+注意，请确保`./vscode/settings.json`里的路径与你电脑内的`python`路径一致,本项目采用的是`python 3.7.3`
 ## 测试
 在本地文件夹中执行
 ```
@@ -30,10 +30,13 @@ E501: E501 line too long (81 > 79 characters)
 本项目有四个分支：
 - master：主分支：最稳定的分支，代码最成熟
 - dev：开发分支，处于开发状态的分支，是两个开发者代码的混合
+- bug#nubmer：修复bug临时分支，number为issue号
+- feature#number：添加新功能临时分支，number为issue号
 
-### 修改bug
-
+### 修改
+以修复一个bug为例
 在GitHub上提交一个`issue`, 记录下bug的情况，记下`issue`的号码
+
 使用
 ```git
 git branch bug#1
