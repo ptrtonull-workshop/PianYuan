@@ -1,7 +1,19 @@
-# Introduction
-[Chinese edition](https://github.com/ptrtonull-workshop/Spider/blob/master/README-CN.md)
+# usage
 
-this is a test of web spider. Because the project's goal is **studying**, therefore the code will include a lot of annotation.
-And preparing for the work in future.
+use 
+```git
+git clone https://github.com/ptrtonull-workshop/PianYuan.git
+```
+to clone this rep's source code
 
+use 
+```pip
+pip -r install requirements.txt
+```
+to download package we need
 
+use 
+```python
+python main.py
+```
+to run 
