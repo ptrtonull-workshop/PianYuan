@@ -1,6 +1,8 @@
 from bs4 import BeautifulSoup
 import requests
+import json
 mainWeb = 'http://www.pianyuan.la'
+
 
 
 # get film page from main page's recommend
@@ -19,20 +21,77 @@ def get_recommend(page, number):
     return film[number]['href']
 
 
-def get_film_download(url, form):
+def get_film_download(url):
+    res = {'url':'null','bt':'null','subtitle':'null'}
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
-    if form == 'url':
-        film = soup.find_all(name='a', attrs={'class': 'btn btn-danger btn-sm'})
-        return mainWeb + film[0]['href']
-    elif form == 'bt':
-        film = soup.find_all(name='a', attrs={'class': 'btn btn-primary btn-sm'})
-        return film[0]['href']
-    elif form == 'subtitle':
-        film = soup.find_all(name='a', attrs={'class': 'btn btn-success btn-sm'})
-        return film[0]['href']
-    else:
-        return ''
+    
+    film = soup.find_all(name='a', attrs={'class': 'btn btn-danger btn-sm'})
+    res['url'] = mainWeb + film[0]['href']
+    film = soup.find_all(name='a', attrs={'class': 'btn btn-primary btn-sm'})
+    res['bt']  = film[0]['href']
+    film = soup.find_all(name='a', attrs={'class': 'btn btn-success btn-sm'})
+    res['subtitle'] = film[0]['href']
+    return res
 
+def get_link(url):
+    res ={'douban':'null','more':'null'}
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    douban = soup.find_all(name='a', attrs={'title': '豆瓣链接'})
+    more = soup.find_all(name='a', attrs={'class': 'text-danger'})
+    res['douban'] = 'https:'+douban[0]['href']
+    res['more'] = 'http://pianyuan.la'+more[0]['href']
+    return res
 
-print(get_film_download(get_recommend(1, 1), 'bt'))
+def get_res_type(url):
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    douban = soup.find_all(name='span', attrs={'class': 'label label-warning'})
+    print(douban[0].string)
+
+def get_inf(url):
+    inf = {'name':'null','number':'null','douban':'null'}
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+
+    film_name = soup.h1
+    number_div = soup.find_all(name='small', attrs={'class':'label label-success'})
+    douban = soup.find_all(name='a', attrs = {'title': '豆瓣链接','target':'_blank'})
+
+    douban = 'https:' + douban[0]['href']
+    inf['douban'] = douban
+    print(soup.html.body.h1.string)
+    
+def get_more_film(url):
+    info = { "quality":"null","name":"null","url":"null","size":"null","time": "null"}
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    x=0
+
+    items = soup.find_all(name='table',attrs = {'class': 'data'})# 所有的资源列表，每一个代表一个清晰度
+    for i in items:                                                #取其中一个清晰度
+        inf = i.find_all(name= 'tr',attrs = {'class':'firstr'})    #取它的清晰度信息
+        quatify= i.find(name= 'span',attrs={'class': 'label label-warning'}).text  #取得清晰度的值
+        
+        films = i.find_all(name='tr',attrs = {'class':'odd'})      
+        films += i.find_all(name='tr',attrs = {'class':'even'})   #取得所有子资源
+        for j in films:                                           #抽取其中一个子资源
+            htxt = j.find(name='td', attrs= {'class':'nobr'})  #找到它带名字的超文本
+            url = htxt.find(name='a',attrs={'class':'ico ico_bt'})   #取得更细节的超文本信息
+            name = url.string  #取得名字
+            url = 'http://pianyuan.la'+url['href'] #取得链接
+            size = j.find(name='td',attrs={'class':'nobr center'}).string #取得大小信息
+            time = j.find(name='td',attrs={'class':'nobr lasttd center'}).string #取得更新时间信息
+            info['quality']=quatify  #收录此子资信息到字典
+            info['name']=name
+            info['url']=url
+            info['size'] =size
+            info['time'] =time
+            
+
+    print(x)
+
+    return info
+
+get_more_film('http://pianyuan.la/m_S8oNccec0.html')
