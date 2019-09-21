@@ -1,8 +1,10 @@
-#test
-run
-```python
+# test
+you should run 
+```pip
 flake8  --ignore E501,E262  main.py
 ```
+before push to github
+### about ignore 
 ```
 E262 inline comment should start with '# '
 E501 line too long (81 > 79 characters)
