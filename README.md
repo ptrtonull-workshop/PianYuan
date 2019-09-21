@@ -1,5 +1,5 @@
 # usage
-
+[Chinese](https://github.com/ptrtonull-workshop/PianYuan/tree/dev/README-CN.md)
 use 
 ```git
 git clone https://github.com/ptrtonull-workshop/PianYuan.git

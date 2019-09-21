@@ -1,4 +1,18 @@
-# 介绍
+# 用法
+使用
+```git
+git clone https://github.com/ptrtonull-workshop/PianYuan.git
+```
+来克隆本项目到本地
 
-这是一个爬虫的仓库，鉴于此项目的学习目的，它会有很多注解，我们还会在不远的将来继续添加代码。
+使用
+```pip
+pip install -r requirements.txt
+```
+来下载依赖包
 
+使用
+```python
+python main.py
+```
+执行代码
