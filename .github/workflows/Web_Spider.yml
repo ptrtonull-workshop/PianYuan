@@ -10,6 +10,7 @@ jobs:
       max-parallel: 4
       matrix:
         python-version: [3.7]
+        mysql-version: [ 5.7.27]
 
     steps:
     - uses: actions/checkout@v1
