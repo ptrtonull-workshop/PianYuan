@@ -20,7 +20,6 @@ jobs:
     - name: mysql
       run: |
         mysql -u root -p
-        root
         create database pianyuan;
         use pianyuan;
         create table film(
