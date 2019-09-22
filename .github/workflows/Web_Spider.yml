@@ -17,8 +17,8 @@ jobs:
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
       with:
-        python-version: ${{ matrix.RootPassword }}
-    - name : Set up Mysql ${{ matrix.mysql-version }}
+        python-version: ${{ matrix.python-version}}
+    - name : Set up Mysql ${{ matrix.RootPassword }}
       uses: mirromutth/mysql-action@v1.1
       with :
           mysql root password: ${{ matrix.RootPassword }}
