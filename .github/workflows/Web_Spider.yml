@@ -17,16 +17,16 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: ${{ matrix.python-version }}
+    - name: mysql_init
+      run: |
+      sudo service mysql stop
+      sudo mysqld_safe --skip-grant-tables --skip-networking
+       UPDATE mysql.user SET authentication_string =PASSWORD('password') WHERE User='root';
+       sudo service mysql start
     - name: mysql
       run: |
-        mysqld_safe --user=mysql --skip-grant-tables --skip-networking & 
-        mysql -u root mysql 
-        update user set authentication_string=password('root') where user='root';
-        FLUSH PRIVILEGES; 
-         quit 
-         /etc/init.d/mysqld restart 
         mysql -u root -p
-        root
+        password
         create database pianyuan;
         use pianyuan;
         create table film(
