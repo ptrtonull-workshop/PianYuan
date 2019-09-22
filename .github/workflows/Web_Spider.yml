@@ -17,6 +17,19 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: ${{ matrix.python-version }}
+    - name: mysql
+      run: |
+        mysql -u root -p root
+        create database pianyuan;
+        use pianyuan;
+        create table film(
+              quality char(50),
+              moive_name mediumblob, 
+              url mediumblob,
+              size char(50),
+              flash_time char(50)
+        );
+        net start mysql;
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
