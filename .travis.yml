@@ -3,7 +3,7 @@ sudo: required
 language: python
 
 services:
-	- mysql
+  - mysql
 
 python:
 	- 3.6
