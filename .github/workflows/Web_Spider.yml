@@ -19,7 +19,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: mysql
       run: |
-        sudo service mysqld start
+        sudo /etc/inint.d/mysqld start
         sudo mysql -uroot -proot
         create database pianyuan;
         use pianyuan;
