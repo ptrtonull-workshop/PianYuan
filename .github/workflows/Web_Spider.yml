@@ -22,7 +22,7 @@ jobs:
       run: |
         sudo service mysql start
         sudo mysql -uroot -proot
-        create database pianyuan;
+        show databases;
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
