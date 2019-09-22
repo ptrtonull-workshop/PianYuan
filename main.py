@@ -4,16 +4,14 @@ import MySQLdb
 mainWeb = 'http://www.pianyuan.la'
 
 
-def add_data_to_mysql(info):  #info = {"quality": "null", "movie_name": "null", "url": "null", "size": "null", "flash_time": "null"}
-    db = MySQLdb.connect("localhost", "root", "wtz", "pianyuan", charset='utf8' )
-    cursor = db.cursor()  # 使用cursor()方法获取操作游标 
-    #print(info["movie_name"])
-    sql= "insert into film(quality,moive_name,url,size,flash_time) values(%s,%s,%s,%s,%s)"
-    cursor.execute(sql,(str(info["quality"]),str(info["movie_name"]),str(info["url"]),str(info["size"]),str(info["flash_time"])))   # 使用execute方法执行SQL语句
+def add_data_to_mysql(info):    # info = {"quality": "null", "movie_name": "null", "url": "null", "size": "null", "flash_time": "null"}
+    db = MySQLdb.connect("localhost", "root", "wtz", "pianyuan", charset='utf8')
+    cursor = db.cursor()
+    sql = "insert into film(quality,moive_name,url,size,flash_time) values(%s,%s,%s,%s,%s)"
+    cursor.execute(sql, (str(info["quality"]), str(info["movie_name"]), str(info["url"]), str(info["size"]), str(info["flash_time"])))   # 使用execute方法执行SQL语句
     cursor.execute("select *from film")
-    myresult = cursor.fetchall()
     db.commit()
-    db.close()# 关闭数据库连接
+    db.close()
 
 
 # get film page from main page's recommend
