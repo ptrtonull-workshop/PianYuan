@@ -11,6 +11,7 @@ jobs:
       matrix:
         python-version: [3.7]
         RootPassword: [root]
+        
 
     steps:
     - uses: actions/checkout@v1
@@ -22,6 +23,7 @@ jobs:
       uses: mirromutth/mysql-action@v1.1
       with :
           mysql root password: ${{ matrix.RootPassword }}
+          mysql version:  '8.0.17'
     - name: mysql
       run: |
         sudo service mysql start
