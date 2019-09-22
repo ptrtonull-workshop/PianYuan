@@ -19,12 +19,11 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: ${{ matrix.python-version }}
-     - uses: actions/checkout@v1
-     - name : Set up Mysql ${{ matrix.mysql-version }}
-        uses: mirromutth/mysql-action@v1.1
-        with :
-        mysql version:  ${{ matrix.mysql-version }}
-        mysql root password: ${{ matrix.RootPassword }}
+    - name : Set up Mysql ${{ matrix.mysql-version }}
+      uses: mirromutth/mysql-action@v1.1
+      with :
+          mysql version:  ${{ matrix.mysql-version }}
+          mysql root password: ${{ matrix.RootPassword }}
     - name: mysql
       run: |
         sudo service mysql start
