@@ -10,7 +10,6 @@ jobs:
       max-parallel: 4
       matrix:
         python-version: [3.7]
-        mysql-version: [ 5.7.27]
         RootPassword: [root]
 
     steps:
@@ -18,11 +17,10 @@ jobs:
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: ${{ matrix.RootPassword }}
     - name : Set up Mysql ${{ matrix.mysql-version }}
       uses: mirromutth/mysql-action@v1.1
       with :
-          mysql version:  ${{ matrix.mysql-version }}
           mysql root password: ${{ matrix.RootPassword }}
     - name: mysql
       run: |
