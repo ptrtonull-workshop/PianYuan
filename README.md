@@ -10,6 +10,56 @@ pip install -r requirements.txt
 来克隆本项目并且按照本项目需要的第三方包
 
 注意，请确保`./vscode/settings.json`里的路径与你电脑内的`python`路径一致,本项目采用的是`python 3.7.3`
+### 数据库
+#### 安装数据库
+这个就不再赘述，按照网上的教程按照，我安装的是`mysql-8.0.17`
+#### 数据库配置
+按照网上的教程配置mysql数据库，主要是要自定义一个账号
+#### 开启数据库
+执行
+```sql
+net start mysql
+```
+来开启数据库服务
+执行
+```sql
+mysql -u username -p
+```
+来登录数据库
+
+`username`是你的用户名，一般是`root`，如果你没自定义的话
+
+接下来系统会让你输入密码
+
+使用
+```sql
+    create database pianyuan;
+    use pianyuan
+    create table film(
+        quality char(50),
+        moive_name mediumblob, 
+        url mediumblob,
+        size char(50),
+        flash_time char(50)
+   );
+```
+来创建一个数据，在数据库`pianyuan`，并创立一个表`film`
+正常情况下，当你做好这些准备工作后，需要将：
+```python
+db = MySQLdb.connect("localhost", "root", "wtz", "pianyuan", charset='utf8' )
+```
+中的第二项和第三项改为你的账号和密码
+执行
+```python
+python main.py
+```
+后，程序会自动写入数据到数据库
+
+使用
+```sql
+select *from film
+```
+来查看数据库中的结果，当然你得确保你选择了`pianyuan`这个数据库
 ## 测试
 在本地文件夹中执行
 ```
