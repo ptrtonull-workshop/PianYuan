@@ -24,11 +24,12 @@ jobs:
       with :
           mysql root password: ${{ matrix.RootPassword }}
           mysql version:  '8.0.17'
+          mysql root password: 'root'
     - name: mysql
       run: |
         sudo service mysql start
         sudo mysql -uroot -proot
-        use  pianyuan;
+        create table  pianyuan;
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
