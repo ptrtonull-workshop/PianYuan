@@ -1,6 +1,17 @@
 from bs4 import BeautifulSoup
 import requests
+import MySQLdb
 mainWeb = 'http://www.pianyuan.la'
+
+
+def add_data_to_mysql(info):    # info = {"quality": "null", "movie_name": "null", "url": "null", "size": "null", "flash_time": "null"}
+    db = MySQLdb.connect("localhost", "root", "wtz", "pianyuan", charset='utf8')
+    cursor = db.cursor()
+    sql = "insert into film(quality,moive_name,url,size,flash_time) values(%s,%s,%s,%s,%s)"
+    cursor.execute(sql, (str(info["quality"]), str(info["movie_name"]), str(info["url"]), str(info["size"]), str(info["flash_time"])))   # 使用execute方法执行SQL语句
+    cursor.execute("select *from film")
+    db.commit()
+    db.close()
 
 
 # get film page from main page's recommend
@@ -8,25 +19,25 @@ mainWeb = 'http://www.pianyuan.la'
 # number : the film position in page
 
 
-#Question A: how can we get the recommend movies' name and match with its href?
+# Question A: how can we get the recommend movies' name and match with its href?
 def get_recommend(page, number):
     if page == 1:
         web = mainWeb
     else:
         web = mainWeb + '/' + '?p=' + str(page)
     response = requests.get(web)
-    #else: page >100
-        #相应的保护措施（或者前端做限制）
-    
+    # else: page >100
+    # 相应的保护措施（或者前端做限制）
     soup = BeautifulSoup(response.text, 'html.parser')
-    film = soup.find_all(name='a', attrs={'class': 'ico ico_bt'})   #class located to find the target
+    film = soup.find_all(name='a', attrs={'class': 'ico ico_bt'})   # lass located to find the target
     for i in film:
         i['href'] = mainWeb + i['href']
     return film[number]['href']
 
-#SUGGESTION:
-#This is a film_download_link, not the download function.
-#Can we change this function's name?    
+
+# SUGGESTION:
+# This is a film_download_link, not the download function.
+# Can we change this function's name?
 def get_film_download(url):
     res = {'url': 'null', 'bt': 'null', 'subtitle': 'null'}
     response = requests.get(url)
@@ -69,7 +80,7 @@ def get_inf(url):
 
 
 def get_more_film(url):
-    info = {"quality": "null", "name": "null", "url": "null", "size": "null", "time": "null"}
+    info = {"quality": "null", "movie_name": "null", "url": "null", "size": "null", "flash_time": "null"}
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
     items = soup.find_all(name='table', attrs={'class': 'data'})   # 所有的资源列表，每一个代表一个清晰度
@@ -85,10 +96,11 @@ def get_more_film(url):
             size = j.find(name='td', attrs={'class': 'nobr center'}).string   # 取得大小信息
             time = j.find(name='td', attrs={'class': 'nobr lasttd center'}).string   # 取得更新时间信息
             info["quality"] = quatify    # 收录此子资信息到字典
-            info["name"] = name
+            info["movie_name"] = name
             info["url"] = url
             info["size"] = size
-            info["time"] = time
+            info["flash_time"] = time
+            add_data_to_mysql(info)
     return info
 
 
