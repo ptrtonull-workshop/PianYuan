@@ -19,7 +19,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: mysql
       run: |
-        mysql -u root -p root
+        mysql -uroot -proot
         create database pianyuan;
         use pianyuan;
         create table film(
