@@ -18,16 +18,39 @@
 # 代码中包含着资源的IP地址。
 # 所以，第一步，我们需要得到这些代码。
 
+
+
+
 import urllib
+import urllib.request
+#it's a individual module
 import re
 
 def geturl(url):
     url = urllib.request.urlopen(url)
     htmlcode = url.read()
+    htmlcode = htmlcode.decode('utf-8')
     return htmlcode
 
-def getsource():
+def getsource(htmlcode):
     #regular expression
-    reg = r'src="(+?\.jpg)"'
+    #which means it can find out all the IP address which end with .jpg.
+    reg = r'src="(.+?\.jpg)"'
+
+    reg_img = re.compile(reg)
+    imglist = reg_img.findall(htmlcode)
+
+    for img in imglist:
+        print (img)
+
+
+
+if __name__ == "__main__":
+    htmlcode = geturl('http://image.baidu.com/search/index?tn=baiduimage&ps=1&ct=201326592&lm=-1&cl=2&nc=1&ie=utf-8&word=%E7%8C%AB%E7%8C%AB')
+    getsource(htmlcode)
+
+
+
+
 
 
