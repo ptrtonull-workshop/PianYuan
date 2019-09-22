@@ -19,8 +19,8 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: mysql
       run: |
-        mysql -uroot -p
-        root
+        net start mysql
+        mysql -uroot -proot
         create database pianyuan;
         use pianyuan;
         create table film(
@@ -30,7 +30,7 @@ jobs:
               size char(50),
               flash_time char(50)
         );
-        net start mysql
+        
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
