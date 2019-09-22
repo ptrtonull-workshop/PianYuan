@@ -19,25 +19,25 @@ def add_data_to_mysql(info):    # info = {"quality": "null", "movie_name": "null
 # number : the film position in page
 
 
-#Question A: how can we get the recommend movies' name and match with its href?
+# Question A: how can we get the recommend movies' name and match with its href?
 def get_recommend(page, number):
     if page == 1:
         web = mainWeb
     else:
         web = mainWeb + '/' + '?p=' + str(page)
     response = requests.get(web)
-    #else: page >100
-        #相应的保护措施（或者前端做限制）
-    
+    # else: page >100
+    # 相应的保护措施（或者前端做限制）
     soup = BeautifulSoup(response.text, 'html.parser')
-    film = soup.find_all(name='a', attrs={'class': 'ico ico_bt'})   #class located to find the target
+    film = soup.find_all(name='a', attrs={'class': 'ico ico_bt'})   # lass located to find the target
     for i in film:
         i['href'] = mainWeb + i['href']
     return film[number]['href']
 
-#SUGGESTION:
-#This is a film_download_link, not the download function.
-#Can we change this function's name?    
+
+# SUGGESTION:
+# This is a film_download_link, not the download function.
+# Can we change this function's name?
 def get_film_download(url):
     res = {'url': 'null', 'bt': 'null', 'subtitle': 'null'}
     response = requests.get(url)
