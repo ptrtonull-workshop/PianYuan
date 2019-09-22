@@ -10,6 +10,12 @@ pip install -r requirements.txt
 来克隆本项目并且按照本项目需要的第三方包
 
 注意，请确保`./vscode/settings.json`里的路径与你电脑内的`python`路径一致,本项目采用的是`python 3.7.3`
+### 额外的插件
+本次使用的是`mysqlclient`,一种`MySQL-Python`的一个分支，提供了python3的支持，`mysqlclient`已经加入到`requirements.txt`里，但好像有人说会出错，可以试试[Mysqlclient](https://www.lfd.uci.edu/~gohlke/pythonlibs/#mysqlclient)，下载对应的包后在包所在的地址使用：
+```python
+pip install 下载的包名
+```
+来安装此包
 ### 数据库
 #### 安装数据库
 这个就不再赘述，按照网上的教程按照，我安装的是`mysql-8.0.17`
