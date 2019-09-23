@@ -8,6 +8,7 @@ env:
     global:
      - TRAVIS=true
 before_install:
+    - sudo mysql -e 'SHOW DATABASES;'
     - sudo mysql -e 'CREATE DATABASE pianyuan;'
     - sudo mysql -e 'USE pianyuan;'
     - sudo mysql -e 'CREATE TABLE film( 
