@@ -15,7 +15,7 @@ before_install:
         url mediumblob,
         size char(50),
         flash_time char(50)
-        );'
+        )'
 # command to install dependencies
 install:
     - pip install -r requirements.txt
