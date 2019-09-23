@@ -9,6 +9,7 @@ env:
      - TRAVIS=true
 before_install:
     - mysql -e 'CREATE DATABASE IF NOT EXISTS pianyuan;'
+    - mysql -e 'use pianyuan'
     - mysql -e 'create table film( quality char(50),
         moive_name mediumblob, 
         url mediumblob,
