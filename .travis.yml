@@ -12,15 +12,8 @@ before_install:
     - sudo mysql -e 'CREATE DATABASE pianyuan;'
     - sudo mysql -e 'select database();'
     - sudo mysql -e 'SHOW DATABASES;'
-    - sudo mysql -e 'use pianyuan;'
+    - sudo mysql -e 'use sys;'
     - sudo mysql -e 'select database();'
-    - sudo mysql -e 'CREATE TABLE film( 
-        quality char(50),
-        moive_name mediumblob, 
-        url mediumblob,
-        size char(50),
-        flash_time char(50)
-        );'
 # command to install dependencies
 install:
     - pip install -r requirements.txt
