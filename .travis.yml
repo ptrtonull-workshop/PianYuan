@@ -10,8 +10,10 @@ env:
 before_install:
     - sudo mysql -e 'SHOW DATABASES;'
     - sudo mysql -e 'CREATE DATABASE pianyuan;'
+    - sudo mysql -e 'select database();'
     - sudo mysql -e 'SHOW DATABASES;'
     - sudo mysql -e 'use pianyuan;'
+    - sudo mysql -e 'select database();'
     - sudo mysql -e 'CREATE TABLE film( 
         quality char(50),
         moive_name mediumblob, 
