@@ -3,12 +3,12 @@ sudo: enabled
 services:
     - mysql
 python:
-    - "3.5"
+    - "3.7.3"
 env:
     global:
      - TRAVIS=true
 before_install:
-    - mysql -e 'CREATE DATABASE IF NOT EXISTS pianyuan;'
+    - mysql -e 'create database pianyuan;'
     - mysql -e 'use pianyuan;'
     - mysql -e 'create table film( quality char(50),
         moive_name mediumblob, 
