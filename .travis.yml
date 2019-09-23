@@ -12,7 +12,7 @@ before_install:
     - sudo mysql -e 'CREATE DATABASE pianyuan;'
     - sudo mysql -e 'select database();'
     - sudo mysql -e 'SHOW DATABASES;'
-    - sudo mysql -e 'USE pianyuan;'
+    - sudo mysql -e 'USE  'pianyuan';'
     - sudo mysql -e 'select database();'
     - sudo mysql --version
 # command to install dependencies
