@@ -14,6 +14,7 @@ before_install:
     - sudo mysql -e 'SHOW DATABASES;'
     - sudo mysql -e 'use sys;'
     - sudo mysql -e 'select database();'
+    - sudo mysql --version
 # command to install dependencies
 install:
     - pip install -r requirements.txt
