@@ -8,11 +8,17 @@ env:
     global:
      - TRAVIS=true
 before_install:
-    - mysql -e 'CREATE DATABASE IF NOT EXISTS wechat_ticket;'
-    - mv configs.example.json configs.json
+    - mysql -e 'CREATE DATABASE IF NOT EXISTS pianyuan;'
+    - mysql -e 'create database pianyuan;'
+    - mysql -e 'create table film( quality char(50),
+        moive_name mediumblob, 
+        url mediumblob,
+        size char(50),
+        flash_time char(50)
+        );'
 # command to install dependencies
 install:
     - pip install -r requirements.txt
-    
 script:
-    python manage.py test
+    - python main.py
+
