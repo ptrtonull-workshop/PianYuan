@@ -8,12 +8,12 @@ env:
     global:
      - TRAVIS=true
 before_install:
-    - sudo mysql -e 'use sys;'
+    - sudo mysql -e 'use 'sys';'
     - sudo mysql -e 'SHOW DATABASES;'
     - sudo mysql -e 'CREATE DATABASE pianyuan;'
     - sudo mysql -e 'select database();'
     - sudo mysql -e 'SHOW DATABASES;'
-    - sudo mysql -e 'use sys;'
+    - sudo mysql -e 'use 'sys';'
     - sudo mysql -e 'select database();'
     - sudo mysql --version
 # command to install dependencies
