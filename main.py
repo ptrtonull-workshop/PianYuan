@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 import MySQLdb
+import bs4
 mainWeb = 'http://www.pianyuan.la'
 
 
@@ -80,7 +81,7 @@ def get_inf(url):
 
 
 def get_more_film(url):
-    info = {"quality": "null", "movie_name": "null", "url": "null", "size": "null", "flash_time": "null"}
+    info = {"quality": "null", "movie_name": "null", "url": "null","size": "null", "flash_time": "null"}
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
     items = soup.find_all(name='table', attrs={'class': 'data'})   # 所有的资源列表，每一个代表一个清晰度
@@ -91,8 +92,12 @@ def get_more_film(url):
         for j in films:                                           # 抽取其中一个子资源
             htxt = j.find(name='td', attrs={'class': 'nobr'})  # 找到它带名字的超文本
             url = htxt.find(name='a', attrs={'class': 'ico ico_bt'})   # 取得更细节的超文本信息
+            if isinstance(url,bs4.element.Tag) == False:
+                url = htxt.find(name='a', attrs={'class': 'ico ico_ed2k'})   # 取得更细节的超文本信息
+                if isinstance(url,bs4.element.Tag) == False:
+                    url = htxt.find(name='a', attrs={'class': 'ico'})   # 取得更细节的超文本信息
             name = url.string  # 取得名字
-            url = 'http://pianyuan.la' + url['href']   # 取得链接
+            url = 'http://pianyuan.la' + url['href']   # 取得链接 btn  btn-primary btn-sm
             size = j.find(name='td', attrs={'class': 'nobr center'}).string   # 取得大小信息
             time = j.find(name='td', attrs={'class': 'nobr lasttd center'}).string   # 取得更新时间信息
             info["quality"] = quatify    # 收录此子资信息到字典
@@ -103,5 +108,30 @@ def get_more_film(url):
             add_data_to_mysql(info)
     return info
 
+def next_page(page):
+    return 'http://pianyuan.la/mv?order=score&p=' + str(page)
 
-get_more_film('http://pianyuan.la/m_S8oNccec0.html')
+mv_web  = 'http://pianyuan.la/mv?order=score'
+def get_list(url):
+    number = 1
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    items = soup.find_all(name='div', attrs={'class': 'col-sm-3 col-md-3 col-xs-4 col-lg-2 nopl'})
+    for i in items:
+        film = i.find(name='a')
+        film['href'] = 'http://pianyuan.la' + film['href']
+        get_more_film(film['href'])
+        print(number,end =' ')
+        number = number + 1
+
+
+def run():
+    page = 43
+    while page <=112:
+        print("page:",end = ' ')
+        print(page)
+        get_list(next_page(page))
+        page = page + 1
+        
+
+run()
