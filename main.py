@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 import MySQLdb
 import bs4
+import sys
 mainWeb = 'http://www.pianyuan.la'
 
 
@@ -125,12 +126,12 @@ def get_list(url):
         number = number + 1
 
 
-def run(finsh):
-    page = 1
-    while page <=finsh:
+def run(s,f):
+    page = int(s)
+    while page <= int (f):
         print("page:",end = ' ')
         print(page)
         get_list(next_page(page))
         page = page + 1
         
-run(2)
+run(sys.argv[1],sys.argv[2])
