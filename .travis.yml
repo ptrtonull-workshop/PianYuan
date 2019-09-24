@@ -8,9 +8,9 @@ env:
     global:
      - TRAVIS=true
 before_install:
-    - sudo mysql -e 'CREATE DATABASE pianyuan; USE pianyuan;create table film(quality char(50),moive_name mediumblob, url mediumblob,size char(50),flash_time char(50))ENGINE=MyISAM DEFAULT CHARSET=utf8;'
+    - sudo mysql -e 'CREATE DATABASE pianyuan; USE pianyuan;create table film(quality char(50),moive_name mediumblob, url mediumblob,size char(50),flash_time char(50))ENGINE=MyISAM DEFAULT CHARSET=utf8;;'
 # command to install dependencies
 install:
     - pip install -r requirements.txt
 script:
-    - python main.py
+    - python main.py 1 1
