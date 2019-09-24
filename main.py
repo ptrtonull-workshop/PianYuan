@@ -125,12 +125,12 @@ def get_list(url):
         number = number + 1
 
 
-def run(start):
-    page = start
-    while page <=112:
+def run(finsh):
+    page = 1
+    while page <=finsh:
         print("page:",end = ' ')
         print(page)
         get_list(next_page(page))
         page = page + 1
         
-run(111)
+run(2)
