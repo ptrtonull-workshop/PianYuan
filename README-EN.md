@@ -1,6 +1,4 @@
-
 # Exploit
-[English](./README-EN.md)
 
 ## Ready 
 execute
