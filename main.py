@@ -127,8 +127,8 @@ def get_list(url):
 
 
 def run(s,f):
-    page = s
-    while page <=f:
+    page = int(s)
+    while page <= int (f):
         print("page:",end = ' ')
         print(page)
         get_list(next_page(page))
