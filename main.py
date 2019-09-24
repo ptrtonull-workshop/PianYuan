@@ -82,7 +82,7 @@ def get_inf(url):
 
 
 def get_more_film(url):
-    info = {"quality": "null", "movie_name": "null", "url": "null","size": "null", "flash_time": "null"}
+    info = {"quality": "null", "movie_name": "null", "url": "null", "size": "null", "flash_time": "null"}
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
     items = soup.find_all(name='table', attrs={'class': 'data'})   # 所有的资源列表，每一个代表一个清晰度
@@ -93,9 +93,9 @@ def get_more_film(url):
         for j in films:                                           # 抽取其中一个子资源
             htxt = j.find(name='td', attrs={'class': 'nobr'})  # 找到它带名字的超文本
             url = htxt.find(name='a', attrs={'class': 'ico ico_bt'})   # 取得更细节的超文本信息
-            if isinstance(url,bs4.element.Tag) == False:
+            if isinstance(url, bs4.element.Tag) is False:
                 url = htxt.find(name='a', attrs={'class': 'ico ico_ed2k'})   # 取得更细节的超文本信息
-                if isinstance(url,bs4.element.Tag) == False:
+                if isinstance(url, bs4.element.Tag) is False:
                     url = htxt.find(name='a', attrs={'class': 'ico'})   # 取得更细节的超文本信息
             name = url.string  # 取得名字
             url = 'http://pianyuan.la' + url['href']   # 取得链接 btn  btn-primary btn-sm
@@ -109,10 +109,14 @@ def get_more_film(url):
             add_data_to_mysql(info)
     return info
 
+
 def next_page(page):
     return 'http://pianyuan.la/mv?order=score&p=' + str(page)
 
-mv_web  = 'http://pianyuan.la/mv?order=score'
+
+mv_web = 'http://pianyuan.la/mv?order=score'
+
+
 def get_list(url):
     number = 1
     response = requests.get(url)
@@ -122,16 +126,17 @@ def get_list(url):
         film = i.find(name='a')
         film['href'] = 'http://pianyuan.la' + film['href']
         get_more_film(film['href'])
-        print(number,end =' ')
+        print(number, end=' ')
         number = number + 1
 
 
-def run(s,f):
+def run(s, f):
     page = int(s)
-    while page <= int (f):
-        print("page:",end = ' ')
+    while page <= int(f):
+        print("page:", end=' ')
         print(page)
         get_list(next_page(page))
         page = page + 1
-        
-run(sys.argv[1],sys.argv[2])
+
+
+run(sys.argv[1], sys.argv[2])

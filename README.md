@@ -1,4 +1,6 @@
 # 开发
+[![Build Status](https://travis-ci.com/ptrtonull-workshop/PianYuan.svg?branch=master)](https://travis-ci.com/ptrtonull-workshop/PianYuan)
+
 [English](./README-EN.md)
 ## 准备 
 执行
@@ -39,15 +41,14 @@ mysql -u username -p
 
 使用
 ```sql
-    create database pianyuan;
-    use pianyuan
-    create table film(
-        quality char(50),
-        moive_name mediumblob, 
-        url mediumblob,
-        size char(50),
-        flash_time char(50)
-   );
+   CREATE DATABASE pianyuan; 
+    USE pianyuan;
+    create table film(quality char(50),
+    moive_name mediumblob, 
+    url mediumblob,
+    size char(50),
+    flash_time char(50)
+   )ENGINE=MyISAM DEFAULT CHARSET=utf8;'
 ```
 来创建一个数据，在数据库`pianyuan`，并创立一个表`film`
 正常情况下，当你做好这些准备工作后，需要将：
