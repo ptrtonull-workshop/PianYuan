@@ -69,7 +69,7 @@ select *from film
 ## 测试
 在本地文件夹中执行
 ```
-python main.py
+python main.py  1 2
 ```
 来测试你的代码的功能是否正常
 
