@@ -6,7 +6,7 @@ mainWeb = 'http://www.pianyuan.la'
 
 
 def add_data_to_mysql(info):    # info = {"quality": "null", "movie_name": "null", "url": "null", "size": "null", "flash_time": "null"}
-    db = MySQLdb.connect("localhost", "root", "wtz", "pianyuan", charset='utf8')
+    db = MySQLdb.connect("localhost", "root", "", "pianyuan", charset='utf8')
     cursor = db.cursor()
     sql = "insert into film(quality,moive_name,url,size,flash_time) values(%s,%s,%s,%s,%s)"
     cursor.execute(sql, (str(info["quality"]), str(info["movie_name"]), str(info["url"]), str(info["size"]), str(info["flash_time"])))   # 使用execute方法执行SQL语句
@@ -125,13 +125,12 @@ def get_list(url):
         number = number + 1
 
 
-def run():
-    page = 43
+def run(start):
+    page = start
     while page <=112:
         print("page:",end = ' ')
         print(page)
         get_list(next_page(page))
         page = page + 1
         
-
-run()
+run(111)
