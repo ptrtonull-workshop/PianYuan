@@ -12,7 +12,7 @@ password = ""
 
 
 def mysql_creator():
-    db = MySQLdb.connect(host, username, password, "pianyuan", charset="utf8")
+    db = MySQLdb.connect(host, username, password, "sys", charset="utf8")
     cursor = db.cursor()
     cursor.execute("CREATE DATABASE if Not Exists pianyuan;")
     cursor.execute("USE pianyuan;")
