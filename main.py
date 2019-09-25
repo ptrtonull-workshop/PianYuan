@@ -11,6 +11,16 @@ username = "root"
 password = ""
 
 
+def mysql_creator():
+    db = MySQLdb.connect(host, username, password, "sys", charset="utf8")
+    cursor = db.cursor()
+    cursor.execute("CREATE DATABASE if Not Exists pianyuan;")
+    cursor.execute("USE pianyuan;")
+    cursor.execute("create table if Not Exists film(quality char(50),moive_name mediumblob, url mediumblob,size char(50),flash_time char(50))ENGINE=MyISAM DEFAULT CHARSET=utf8;")
+    db.commit()
+    db.close()
+
+
 def setMysql(host_t, username_t, password_t):
     global host
     host = host_t
@@ -194,6 +204,7 @@ def main():
                 setMysql(sys.argv[4], sys.argv[5], "")
             else:
                 setMysql(sys.argv[4], sys.argv[5], sys.argv[6])
+            mysql_creator()
             run(sys.argv[1], sys.argv[2])
         else:
             print("I can't understand you.")
