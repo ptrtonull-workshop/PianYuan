@@ -3,14 +3,25 @@ import requests
 import MySQLdb
 import bs4
 import sys
+import time
+from tqdm import trange
 
 mainWeb = "http://www.pianyuan.la"
 
+host = "localhost"
+username="root"
+password =""
 
-def add_data_to_mysql(
-    info
-):  # info = {"quality": "null", "movie_name": "null", "url": "null", "size": "null", "flash_time": "null"}
-    db = MySQLdb.connect("localhost", "root", "", "pianyuan", charset="utf8")
+def setMysql(host_t,username_t,password_t):
+    global host
+    host= host_t
+    global username
+    username = username_t
+    global password
+    password = password_t
+
+def add_data_to_mysql(info):
+    db = MySQLdb.connect(host, username,password, "pianyuan", charset="utf8")
     cursor = db.cursor()
     sql = "insert into film(quality,moive_name,url,size,flash_time) values(%s,%s,%s,%s,%s)"
     cursor.execute(
@@ -107,18 +118,14 @@ def get_more_film(url):
     soup = BeautifulSoup(response.text, "html.parser")
     items = soup.find_all(name="table", attrs={"class": "data"})  # 所有的资源列表，每一个代表一个清晰度
     for i in items:  # 取其中一个清晰度
-        quatify = i.find(
-            name="span", attrs={"class": "label label-warning"}
-        ).text  # 取得清晰度的值
+        quatify = i.find(name="span", attrs={"class": "label label-warning"}).text
         films = i.find_all(name="tr", attrs={"class": "odd"})
         films += i.find_all(name="tr", attrs={"class": "even"})  # 取得所有子资源
         for j in films:  # 抽取其中一个子资源
             htxt = j.find(name="td", attrs={"class": "nobr"})  # 找到它带名字的超文本
             url = htxt.find(name="a", attrs={"class": "ico ico_bt"})  # 取得更细节的超文本信息
             if isinstance(url, bs4.element.Tag) is False:
-                url = htxt.find(
-                    name="a", attrs={"class": "ico ico_ed2k"}
-                )  # 取得更细节的超文本信息
+                url = htxt.find(name="a", attrs={"class": "ico ico_ed2k"})
                 if isinstance(url, bs4.element.Tag) is False:
                     url = htxt.find(name="a", attrs={"class": "ico"})  # 取得更细节的超文本信息
             name = url.string  # 取得名字
@@ -143,28 +150,54 @@ def next_page(page):
 mv_web = "http://pianyuan.la/mv?order=score"
 
 
-def get_list(url):
+def get_list(url,page):
     number = 1
+    film_list_number = 0
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
     items = soup.find_all(
         name="div", attrs={"class": "col-sm-3 col-md-3 col-xs-4 col-lg-2 nopl"}
     )
-    for i in items:
+    for x in range(0, 118, 3):
+        i=items[film_list_number]
         film = i.find(name="a")
         film["href"] = "http://pianyuan.la" + film["href"]
         get_more_film(film["href"])
-        print(number, end=" ")
-        number = number + 1
+        num = x // 2
+        if x == 107:
+            process = "\r[%d#NO.%d]: |%-51s|\n" % (page,x/3+1, '|' * (num-1))
+        else:
+            process = "\r[%d#NO.%d]: |%-51s|" % (page,x/3+1, '|' * (num-1))
+        print(process, end='', flush=True)
+        if film_list_number == 35:
+            return 0
+        else:
+            film_list_number = film_list_number+1
+
 
 
 def run(s, f):
     page = int(s)
     while page <= int(f):
-        print("page:", end=" ")
-        print(page)
-        get_list(next_page(page))
+        get_list(next_page(page),page)
         page = page + 1
 
 
-run(sys.argv[1], sys.argv[2])
+def main():
+    local = "-G"
+    Len = len(sys.argv)
+    if Len < 4:
+        print("too less value")
+    else:
+        if sys.argv[3] == str(local):
+            if Len < 6:
+                print("too less value")
+            elif Len == 6:
+                setMysql(sys.argv[4],sys.argv[5],"")
+            else:
+                setMysql(sys.argv[4],sys.argv[5],sys.argv[6])
+            run(sys.argv[1],sys.argv[2])
+        else:
+            print("I can't understand you.")
+
+main()
