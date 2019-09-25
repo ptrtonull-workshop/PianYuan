@@ -13,4 +13,4 @@ install:
     - pip install -r requirements.txt
 script:
     - flake8  --ignore E501  main.py
-    - python main.py 1 2 -G localhost root
+    - python main.py 1 1 -G localhost root
