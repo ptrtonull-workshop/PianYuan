@@ -109,13 +109,3 @@ git push origin :bug#1
 ```
 来远程删除在Github上的多余的分支
 </details>
-
-- add_data_to_mysql(info)
-- get_recommend(page, number)
-- get_film_download(url)
-- get_link(url)
-- get_res_type(url)
-- get_inf(url)
-- get_more_film(url)
-- get_list(url)
-- run(s, f)
