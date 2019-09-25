@@ -3,25 +3,25 @@ import requests
 import MySQLdb
 import bs4
 import sys
-import time
-from tqdm import trange
 
 mainWeb = "http://www.pianyuan.la"
 
 host = "localhost"
-username="root"
-password =""
+username = "root"
+password = ""
 
-def setMysql(host_t,username_t,password_t):
+
+def setMysql(host_t, username_t, password_t):
     global host
-    host= host_t
+    host = host_t
     global username
     username = username_t
     global password
     password = password_t
 
+
 def add_data_to_mysql(info):
-    db = MySQLdb.connect(host, username,password, "pianyuan", charset="utf8")
+    db = MySQLdb.connect(host, username, password, "pianyuan", charset="utf8")
     cursor = db.cursor()
     sql = "insert into film(quality,moive_name,url,size,flash_time) values(%s,%s,%s,%s,%s)"
     cursor.execute(
@@ -150,8 +150,7 @@ def next_page(page):
 mv_web = "http://pianyuan.la/mv?order=score"
 
 
-def get_list(url,page):
-    number = 1
+def get_list(url, page):
     film_list_number = 0
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
@@ -159,27 +158,26 @@ def get_list(url,page):
         name="div", attrs={"class": "col-sm-3 col-md-3 col-xs-4 col-lg-2 nopl"}
     )
     for x in range(0, 118, 3):
-        i=items[film_list_number]
+        i = items[film_list_number]
         film = i.find(name="a")
         film["href"] = "http://pianyuan.la" + film["href"]
         get_more_film(film["href"])
         num = x // 2
         if x == 107:
-            process = "\r[%d#NO.%d]: |%-51s|\n" % (page,x/3+1, '|' * (num-1))
+            process = "\r[%d#NO.%d]: |%-51s|\n" % (page, x / 3 + 1, "|" * (num - 1))
         else:
-            process = "\r[%d#NO.%d]: |%-51s|" % (page,x/3+1, '|' * (num-1))
-        print(process, end='', flush=True)
+            process = "\r[%d#NO.%d]: |%-51s|" % (page, x / 3 + 1, "|" * (num - 1))
+        print(process, end="", flush=True)
         if film_list_number == 35:
             return 0
         else:
-            film_list_number = film_list_number+1
-
+            film_list_number = film_list_number + 1
 
 
 def run(s, f):
     page = int(s)
     while page <= int(f):
-        get_list(next_page(page),page)
+        get_list(next_page(page), page)
         page = page + 1
 
 
@@ -193,11 +191,12 @@ def main():
             if Len < 6:
                 print("too less value")
             elif Len == 6:
-                setMysql(sys.argv[4],sys.argv[5],"")
+                setMysql(sys.argv[4], sys.argv[5], "")
             else:
-                setMysql(sys.argv[4],sys.argv[5],sys.argv[6])
-            run(sys.argv[1],sys.argv[2])
+                setMysql(sys.argv[4], sys.argv[5], sys.argv[6])
+            run(sys.argv[1], sys.argv[2])
         else:
             print("I can't understand you.")
+
 
 main()
