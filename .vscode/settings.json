@@ -1,3 +1,5 @@
 {
-    "python.pythonPath": "C:\\Users\\王听正\\AppData\\Local\\Programs\\Python\\Python37\\python.exe"
+    "python.pythonPath": "C:\\Users\\王听正\\AppData\\Local\\Programs\\Python\\Python37\\python.exe",
+    "travis.repository": "PianYuan",
+    "travis.username": "ptrtonull-workshop"
 }
