@@ -3,51 +3,13 @@ import requests
 import MySQLdb
 import bs4
 import sys
+import mysql
+import time
 
 mainWeb = "http://www.pianyuan.la"
+mv_web = "http://pianyuan.la/mv?order=score"
 
-host = "localhost"
-username = "root"
-password = ""
-
-
-def mysql_creator():
-    db = MySQLdb.connect(host, username, password, "sys", charset="utf8")
-    cursor = db.cursor()
-    cursor.execute("CREATE DATABASE if Not Exists pianyuan;")
-    cursor.execute("USE pianyuan;")
-    cursor.execute("create table if Not Exists film(quality char(50),moive_name mediumblob, url mediumblob,size char(50),flash_time char(50))ENGINE=MyISAM DEFAULT CHARSET=utf8;")
-    db.commit()
-    db.close()
-
-
-def setMysql(host_t, username_t, password_t):
-    global host
-    host = host_t
-    global username
-    username = username_t
-    global password
-    password = password_t
-
-
-def add_data_to_mysql(info):
-    db = MySQLdb.connect(host, username, password, "pianyuan", charset="utf8")
-    cursor = db.cursor()
-    sql = "insert into film(quality,moive_name,url,size,flash_time) values(%s,%s,%s,%s,%s)"
-    cursor.execute(
-        sql,
-        (
-            str(info["quality"]),
-            str(info["movie_name"]),
-            str(info["url"]),
-            str(info["size"]),
-            str(info["flash_time"]),
-        ),
-    )  # 使用execute方法执行SQL语句
-    cursor.execute("select *from film")
-    db.commit()
-    db.close()
-
+acc = mysql.account
 
 # get film page from main page's recommend
 # page : page number of main recommend list
@@ -117,13 +79,7 @@ def get_inf(url):
 
 
 def get_more_film(url):
-    info = {
-        "quality": "null",
-        "movie_name": "null",
-        "url": "null",
-        "size": "null",
-        "flash_time": "null",
-    }
+    page = []
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
     items = soup.find_all(name="table", attrs={"class": "data"})  # 所有的资源列表，每一个代表一个清晰度
@@ -132,6 +88,7 @@ def get_more_film(url):
         films = i.find_all(name="tr", attrs={"class": "odd"})
         films += i.find_all(name="tr", attrs={"class": "even"})  # 取得所有子资源
         for j in films:  # 抽取其中一个子资源
+            info = {}
             htxt = j.find(name="td", attrs={"class": "nobr"})  # 找到它带名字的超文本
             url = htxt.find(name="a", attrs={"class": "ico ico_bt"})  # 取得更细节的超文本信息
             if isinstance(url, bs4.element.Tag) is False:
@@ -149,34 +106,44 @@ def get_more_film(url):
             info["url"] = url
             info["size"] = size
             info["flash_time"] = time
-            add_data_to_mysql(info)
-    return info
+            page.append(info)
+    return page    # 取得一个页面，也就是一部电影的所有资源
 
 
 def next_page(page):
     return "http://pianyuan.la/mv?order=score&p=" + str(page)
 
 
-mv_web = "http://pianyuan.la/mv?order=score"
-
-
-def get_list(url, page):
+def get_list(url, page, db):
     film_list_number = 0
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
     items = soup.find_all(
         name="div", attrs={"class": "col-sm-3 col-md-3 col-xs-4 col-lg-2 nopl"}
-    )
-    for x in range(0, 118, 3):
-        i = items[film_list_number]
+    )  # 取得一个页面的所有电影
+    start = time.time()
+    for x in range(0, 118, 3):  # 存一部电影的所有资源信息到数据库
+        i = items[film_list_number]  # 取其中一部电影
         film = i.find(name="a")
-        film["href"] = "http://pianyuan.la" + film["href"]
-        get_more_film(film["href"])
+        film["href"] = "http://pianyuan.la" + film["href"]  # 取得一部电影的链接
+        all_res = get_more_film(film["href"])     # 取得一部电影的所有资源到all_res里
+        for r in all_res:  # 取得某一个资源
+            mysql.add(r, db)
         num = x // 2
         if x == 107:
-            process = "\r[%d#NO.%d]: |%-51s|\n" % (page, x / 3 + 1, "|" * (num - 1))
+            process = "\r[%3d#NO.%3d]: |%-51s|本次运行时间:%3ds\n" % (
+                page,
+                x / 3 + 1,
+                "|" * (num - 1),
+                (time.time() - start),
+            )
         else:
-            process = "\r[%d#NO.%d]: |%-51s|" % (page, x / 3 + 1, "|" * (num - 1))
+            process = "\r[%3d#NO.%3d]: |%-51s|本次运行时间:%3ds" % (
+                page,
+                x / 3 + 1,
+                "|" * (num - 1),
+                (time.time() - start),
+            )
         print(process, end="", flush=True)
         if film_list_number == 35:
             return 0
@@ -184,10 +151,10 @@ def get_list(url, page):
             film_list_number = film_list_number + 1
 
 
-def run(s, f):
+def run(s, f, db):
     page = int(s)
     while page <= int(f):
-        get_list(next_page(page), page)
+        get_list(next_page(page), page, db)
         page = page + 1
 
 
@@ -201,11 +168,11 @@ def main():
             if Len < 6:
                 print("too less value")
             elif Len == 6:
-                setMysql(sys.argv[4], sys.argv[5], "")
+                acc = mysql.modify(sys.argv[4], sys.argv[5], "")
             else:
-                setMysql(sys.argv[4], sys.argv[5], sys.argv[6])
-            mysql_creator()
-            run(sys.argv[1], sys.argv[2])
+                acc = mysql.modify(sys.argv[4], sys.argv[5], sys.argv[6])
+            db = mysql.create(acc)
+            run(sys.argv[1], sys.argv[2], db)
         else:
             print("I can't understand you.")
 
