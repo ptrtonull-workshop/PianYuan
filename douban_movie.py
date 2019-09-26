@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 import bs4
+import re
 
 mainWeb ="""
  '<html class="ua-windows ua-ff69" lang="zh-cmn-Hans"><head>
@@ -10,7 +11,7 @@ mainWeb ="""
     <meta name="google-site-verification" content="ok0wCgT20tBBgo9_zat2iAcimtN4Ftf5ccsh092Xeyw">
     <title>
         昨日奇迹 (豆瓣)
-</title>
+</tit   le>
     
     <meta name="baidu-site-verification" content="cZdR4xxR7RxmM4zE">
     <meta http-equiv="Pragma" content="no-cache">
@@ -3148,11 +3149,45 @@ def get_douban_inf():
     #inf = {'direct':'null','starring':'null','genre':'null','loca':'null','lang':'null','time':'null'}
     #response = requests.get(url)
     soup = BeautifulSoup(mainWeb,'html.parser')
-    mov_info = soup(id="info")
-    
-    #print(mov_info)
+    mov_info = soup(id="info")[0]
 
-    director = re.compile('导演.')
+    #中文筛选语句   [\u4e00-\u9fa5]
+    #compil_dire = r'导演<.*?><.*>(.+)</a>'
+    #compil_writ = r'编剧<.*?><.*>(.+)</a>'
+    compil_star = r'主演</span>: .*([\u4e00-\u9fa5]*)<.*>'
+    #compil_cate = 
+    #compil_loca = r'制片国家/地区:<.*?> (.+)<.*>' 
+    #compil_lang = r'语言:<.*?> (.+)<.*>' 
+    #compil_date =
+    #compil_runt = r'片长:<.*?>.*<.*?>(.+)</.*>'
+    #compil_otna = r'又名:<.*?> (.+)<.*>'
+    
+    #need IMDB href?
+    
+    
+    
+    #dire = re.findall(compil_dire,str(mov_info))
+    #writ = re.findall(compil_writ,str(mov_info))
+    star = re.findall(compil_star,str(mov_info))
+    #cate = re.findall(compil_cate,str(mov_info))
+    #loca = re.findall(compil_loca,str(mov_info))
+    #lang = re.findall(compil_lang,str(mov_info))
+    #date = re.findall(compil_date,str(mov_info))
+    #runt = re.findall(compil_runt,str(mov_info))
+    #otna = re.findall(compil_otna,str(mov_info))
+    
+    '''
+    Test
+    '''
+    #print(dire) 
+    #print(writ)
+    print(star)
+    #print(cate)
+    #print(loca)
+    #print(lang)
+    #print(date)
+    #print(runt)
+    #print(otna)
 
 
 if __name__=='__main__':
