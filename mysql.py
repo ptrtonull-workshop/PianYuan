@@ -42,8 +42,3 @@ def add(info, db):
         ),
     )
     db.commit()
-
-
-
-modify("localhost","root","root")
-create(account)
