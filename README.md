@@ -68,6 +68,12 @@ git clone https://github.com/ptrtonull-workshop/PianYuan.git
 cd ./pianyuan
 ```
 来克隆本仓库的`dev`分支代码，通常情况下，这个分支的代码是最新的，当然，如果你以前已经克隆过了，那就请您更新一次您的代码，使您的代码保持最新。
+
+如果您第一次下载代码，则意味着您很可能没有本项目需要的相关包，请执行
+```
+python main.py -S init
+```
+来初始化项目来获得本项目需要的包
 #### 新建bug分支
 在GitHub [issue](https://github.com/ptrtonull-workshop/PianYuan/issues)上提交一个`issue`, 记录下bug的情况，记下`issue`的号码，例如您新建了一个编号为#1的`issue`:
 使用
@@ -79,7 +85,7 @@ git checkout bug#1
 #### 检查代码
 在本地文件夹中执行
 ```python
-python main.py 1 1 -G hostname username password
+python main.py -G 1 1 hostname username password
 ```
 后，程序会自动写入数据到数据库，来测试你的代码的功能是否正常
 
@@ -90,8 +96,8 @@ python main.py 1 1 -G hostname username password
 
 在本地项目文件夹中执行
 ```pip
-black main.py
-flake8  --ignore E501  main.py
+python main.py -S beautify
+python main.py -S test
 ```
 来规范你的python代码，以符合flake8的规范。再使用flake8确认`main.py`中的语法错误和书写规范，如有不符合`flake`规范，提交的代码将无法通过`CI`的检查
 在这条语句中，`E501`的意思是：你最多只能在一行中写79个字符，这个规定过于苛刻，故我们将它删除了
@@ -111,4 +117,11 @@ git push origin bug#1
 git push origin :bug#1
 ```
 来远程删除在Github上的多余的分支
+## Q&A
+> 哪些操作需要直接在Github上提交？
+- README文档需要更新
+>哪些情况需要直接同步到`master`分支？
+- 有重大更新，可能是一天积累的；
+- 涉及到CI的配置文件的；
+- 紧急的BUG
 </details>
