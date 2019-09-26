@@ -74,8 +74,8 @@ mainWeb ="""
 
   _vwo_settings_timer = _vwo_code.init();
   </script>
-
-
+  
+     
     
 
 
@@ -3151,10 +3151,15 @@ def get_douban_inf():
     soup = BeautifulSoup(mainWeb,'html.parser')
     mov_info = soup(id="info")[0]
 
+    star_te = soup.find_all(attr={"rel":"v:starring"})
+    print(star_te)
+ 
+    
+
     #中文筛选语句   [\u4e00-\u9fa5]
     #compil_dire = r'导演<.*?><.*>(.+)</a>'
     #compil_writ = r'编剧<.*?><.*>(.+)</a>'
-    compil_star = r'主演</span>: .*([\u4e00-\u9fa5]*)<.*>'
+   #compil_star = r'rel=\"v:starring\">(.*)</a>'
     #compil_cate = 
     #compil_loca = r'制片国家/地区:<.*?> (.+)<.*>' 
     #compil_lang = r'语言:<.*?> (.+)<.*>' 
@@ -3168,7 +3173,7 @@ def get_douban_inf():
     
     #dire = re.findall(compil_dire,str(mov_info))
     #writ = re.findall(compil_writ,str(mov_info))
-    star = re.findall(compil_star,str(mov_info))
+    #star = re.findall(compil_star,str(mov_info))
     #cate = re.findall(compil_cate,str(mov_info))
     #loca = re.findall(compil_loca,str(mov_info))
     #lang = re.findall(compil_lang,str(mov_info))
@@ -3181,7 +3186,7 @@ def get_douban_inf():
     '''
     #print(dire) 
     #print(writ)
-    print(star)
+    #print(star)
     #print(cate)
     #print(loca)
     #print(lang)
