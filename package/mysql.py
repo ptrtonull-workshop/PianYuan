@@ -1,19 +1,20 @@
 import MySQLdb
 
-account = {"host": "localhost","username": "root","password": ""}
+account = {"host": "localhost", "username": "root", "password": ""}
 
 
 def modify(host_t, username_t, password_t):
     global account
-    account["host"]=host_t
-    account["username"]=username_t
-    account["password"]=password_t
+    account["host"] = host_t
+    account["username"] = username_t
+    account["password"] = password_t
     return account
 
 
-
 def create(account):
-    db = MySQLdb.connect(account["host"],account["username"], account["password"], "sys", charset="utf8")
+    db = MySQLdb.connect(
+        account["host"], account["username"], account["password"], "sys", charset="utf8"
+    )
     cursor = db.cursor()
     cursor.execute("CREATE DATABASE if Not Exists pianyuan;")
     cursor.execute("USE pianyuan;")
@@ -26,6 +27,14 @@ def create(account):
 
 def close(db):
     db.close()
+
+
+def delect(db, table):
+    cursor = db.cursor()
+    cursor.execute("USE pianyuan;")
+    if table == "film":
+        cursor.execute("truncate table film;")
+    db.commit()
 
 
 def add(info, db):
@@ -42,3 +51,8 @@ def add(info, db):
         ),
     )
     db.commit()
+
+
+def number(db):
+    cur = db.cursor()
+    print("共有%d条记录" % cur.execute("SELECT * FROM pianyuan.film;"))
