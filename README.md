@@ -1,52 +1,55 @@
 [![Build Status](https://travis-ci.com/ptrtonull-workshop/PianYuan.svg?branch=master)](https://travis-ci.com/ptrtonull-workshop/PianYuan)
 
 [English](./README-EN.md)
-
-## 导言
-<details>
-<summary><mark><font color=darkred>如何使用本项目</font></mark></summary>
-
-## 环境准备
-- MySql ：8.0.17
-- Python3：3.7.4
-- pip：lastest
-- vscode：lastest
-- vscode的python插件：lastest
-
-后面的是推荐版本，符合要求的其它版本也可，只不过没有进行测试
-
-## 初始化
-打开vscode，新建一个终端，执行
-```git
-git clone https://github.com/ptrtonull-workshop/PianYuan.git
-cd ./PianYuan
-pip install -r requirements.txt
-```
-来克隆本项目并且按照本项目需要的第三方包
-
-注意，请确保`./vscode/settings.json`里的路径与你电脑内的`python`路径一致,本项目采用的是`python 3.7.4`
-
-## 测试
-执行
+## 爬取
+你可以使用以下命令，把[此处](http://pianyuan.la/mv?order=score)的电影爬取到数据库里
 ```python
-python main.py first last -G hostname username password
+python main.py -G start end host username password
 ```
-后，程序会自动写入数据到数据库，其中
-- first：爬取[电影大全](http://pianyuan.la/mv?order=score)的开始页
-- last：爬取[电影大全](http://pianyuan.la/mv?order=score)的终止页
-- hostname:数据库地址
-- username:用户名
-- password:用户名密码，为空的时候可以不填
+其中：
+- `-G`：代表`get`，获取信息
+- start：爬取的开始页，比如start等于3的时候对应的网站是[此处](http://pianyuan.la/mv?order=score&p=3)
+- end：爬取的结束页，比如end等于3的时候对应的网站是[此处](http://pianyuan.la/mv?order=score&p=3)
+- host：数据库的地址
+- username：数据库用户的用户名
+- password：数据库用户的密码
 
-登录数据库后使用
-```sql
-use pianyuan;
-select *from film
+如果你的数据库账号没有密码，即密码为空，那你可以执行下面的命令来达到相同的效果
+```python
+python main.py -G start end host username
 ```
-可查看爬虫爬到的[此处](http://pianyuan.la/mv?order=score)的一部分电影
+此外，你还可以使用以下命令来查看数据库中的数据条数
+```
+python main.py -M number localhost root root
+```
+> 当然，如果你要看更详细的条目，请直接登录数据库查看
+## 开发
+在你开发时，我们为你准备了协助性的命令脚本，格式为：
 
-</details>
+```python
+python main.py -S action
+```
+其中：
+- `-S`：代表`shell`，标记此条语句执行的是一些协助性的命令脚本
+- action：代表要执行的动作，目前支持的动作有：
+  - init
+  - beautify
+  - test
 
+当你得到本项目的源码时，你第一步要做的就是安装项目所需要的依赖，你可以使用
+```python
+python main.py -S init
+```
+
+当你完成你的代码并且验证了要达到的功能后，你可以使用下面的命令来优化格式
+```
+python main.py -S beautify
+```
+当你要往仓库上传代码时，为了让你的CI能通过你的代码，你可以使用下面的命令查看代码中的格式错误，请确保此命令结束后没有返回信息，这样说明你的代码是符合规范的
+```python
+python main.py -S test
+```
+## 其它
 <details>
 <summary><mark><font color=darkred>如何贡献本项目</font></mark></summary>
 
@@ -65,6 +68,12 @@ git clone https://github.com/ptrtonull-workshop/PianYuan.git
 cd ./pianyuan
 ```
 来克隆本仓库的`dev`分支代码，通常情况下，这个分支的代码是最新的，当然，如果你以前已经克隆过了，那就请您更新一次您的代码，使您的代码保持最新。
+
+如果您第一次下载代码，则意味着您很可能没有本项目需要的相关包，请执行
+```
+python main.py -S init
+```
+来初始化项目来获得本项目需要的包
 #### 新建bug分支
 在GitHub [issue](https://github.com/ptrtonull-workshop/PianYuan/issues)上提交一个`issue`, 记录下bug的情况，记下`issue`的号码，例如您新建了一个编号为#1的`issue`:
 使用
@@ -76,7 +85,7 @@ git checkout bug#1
 #### 检查代码
 在本地文件夹中执行
 ```python
-python main.py 1 1 -G hostname username password
+python main.py -G 1 1 hostname username password
 ```
 后，程序会自动写入数据到数据库，来测试你的代码的功能是否正常
 
@@ -87,8 +96,8 @@ python main.py 1 1 -G hostname username password
 
 在本地项目文件夹中执行
 ```pip
-black main.py
-flake8  --ignore E501  main.py
+python main.py -S beautify
+python main.py -S test
 ```
 来规范你的python代码，以符合flake8的规范。再使用flake8确认`main.py`中的语法错误和书写规范，如有不符合`flake`规范，提交的代码将无法通过`CI`的检查
 在这条语句中，`E501`的意思是：你最多只能在一行中写79个字符，这个规定过于苛刻，故我们将它删除了
@@ -108,4 +117,12 @@ git push origin bug#1
 git push origin :bug#1
 ```
 来远程删除在Github上的多余的分支
+## Q&A
+> 哪些操作需要直接在Github上提交？
+- README文档需要更新
+- CI配置文件需要更新
+>哪些情况需要直接同步到`master`分支？
+- 有重大更新，可能是一天积累的；
+- 涉及到CI的配置文件的；
+- 紧急的BUG
 </details>
