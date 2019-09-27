@@ -3151,69 +3151,77 @@ def get_douban_inf():
     soup = BeautifulSoup(mainWeb,'html.parser')
     mov_info = soup(id="info")[0]
 
-    #compil_star = r'rel="v:starring">(.*)</a>'
-    #star_te = soup(rel="v:starring")
-    #for child in star_te:
-    #    temp = re.findall(compil_star,str(child))
-    #    print(temp)
+
+
+    comment_info = soup.find_all(class_="comment")
+    for child in comment_info:
+        #com_name_te = child.find_all(name='a',class_="")
+        #for child in com_name_te:
+        #    print(child.string)
+
+       
+        com = child.find_all(class_="short")
+        for child in com:
+            print(child.string)
+        
+        
+
+
 
 
 '''
-<span class="pl">类型:</span> <span property="v:genre">喜剧</span> /
- <span property="v:genre">音乐</span> 
- / <span property="v:genre">奇幻</span><br>
-'''
 
-    compil_cate = r'类型:</span> <span property="v:genre">(.*)<br>'
-
-    
-    '''
-    AttributeError: 'ResultSet' object has no attribute 'foo' 错误
-    通常是因为把 find_all() 的返回结果当作一个tag或文本节点使用,
-    实际上返回结果是一个列表或 ResultSet 对象的字符串,
-    需要对结果进行循环才能得到每个节点的 .foo 属性.
-    或者使用 find() 方法仅获取到一个节点
-    '''
+    #获取电影简介（以string形式输出）
+    intro_te = soup(name='span',attrs={"property":"v:summary"})
+    for child in intro_te:
+        print(child.string)
  
-    
+    #获取主演名称
+    star_te = soup(rel="v:starring")
+    for child in star_te:
+        print(child.string)
+  
+    #获取类型名称
+    cate_te = soup(property="v:genre") 
+    for child in cate_te:
+        print(child.string)
 
-    #中文筛选语句   [\u4e00-\u9fa5]
-    #compil_dire = r'导演<.*?><.*>(.+)</a>'
-    #compil_writ = r'编剧<.*?><.*>(.+)</a>'
-    #compil_cate = 
-    #compil_loca = r'制片国家/地区:<.*?> (.+)<.*>' 
-    #compil_lang = r'语言:<.*?> (.+)<.*>' 
-    #compil_date =
-    #compil_runt = r'片长:<.*?>.*<.*?>(.+)</.*>'
-    #compil_otna = r'又名:<.*?> (.+)<.*>'
-    
-    #need IMDB href?
-    
-    
-    
-    #dire = re.findall(compil_dire,str(mov_info))
-    #writ = re.findall(compil_writ,str(mov_info))
-    #star = re.findall(compil_star,str(mov_info))
-    cate = re.findall(compil_cate,str(mov_info))
-    #loca = re.findall(compil_loca,str(mov_info))
-    #lang = re.findall(compil_lang,str(mov_info))
-    #date = re.findall(compil_date,str(mov_info))
-    #runt = re.findall(compil_runt,str(mov_info))
-    #otna = re.findall(compil_otna,str(mov_info))
-    
-    '''
-    Test
-    '''
-    #print(dire) 
-    #print(writ)
-    #print(star)
-    print(cate)
-    #print(loca)
-    #print(lang)
-    #print(date)
-    #print(runt)
-    #print(otna)
+    #获取上映日期
+    date_te = soup(property="v:initialReleaseDate")
+    for child in date_te:
+        print(child.string)
 
 
+
+    #获取其他相关信息
+    compil_dire = r'导演<.*?><.*>(.+)</a>'
+    compil_writ = r'编剧<.*?><.*>(.+)</a>'
+    compil_loca = r'制片国家/地区:<.*?> (.+)<.*>' 
+    compil_lang = r'语言:<.*?> (.+)<.*>' 
+    compil_runt = r'片长:<.*?>.*<.*?>(.+)</.*>'
+    compil_otna = r'又名:<.*?> (.+)<.*>'
+    
+
+    dire = re.findall(compil_dire,str(mov_info))
+    writ = re.findall(compil_writ,str(mov_info))
+    loca = re.findall(compil_loca,str(mov_info))
+    lang = re.findall(compil_lang,str(mov_info))
+    runt = re.findall(compil_runt,str(mov_info))
+    otna = re.findall(compil_otna,str(mov_info))
+    
+  
+    print(dire) 
+    print(writ)
+    print(loca)
+    print(lang)
+    print(date)
+    print(runt)
+    print(otna)
+
+'''
+
+
+
+#主程序入口，最后封装请直接删除
 if __name__=='__main__':
     get_douban_inf()
