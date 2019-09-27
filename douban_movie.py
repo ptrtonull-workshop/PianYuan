@@ -3151,15 +3151,35 @@ def get_douban_inf():
     soup = BeautifulSoup(mainWeb,'html.parser')
     mov_info = soup(id="info")[0]
 
-    star_te = soup.find_all(attr={"rel":"v:starring"})
-    print(star_te)
+    #compil_star = r'rel="v:starring">(.*)</a>'
+    #star_te = soup(rel="v:starring")
+    #for child in star_te:
+    #    temp = re.findall(compil_star,str(child))
+    #    print(temp)
+
+
+'''
+<span class="pl">类型:</span> <span property="v:genre">喜剧</span> /
+ <span property="v:genre">音乐</span> 
+ / <span property="v:genre">奇幻</span><br>
+'''
+
+    compil_cate = r'类型:</span> <span property="v:genre">(.*)<br>'
+
+    
+    '''
+    AttributeError: 'ResultSet' object has no attribute 'foo' 错误
+    通常是因为把 find_all() 的返回结果当作一个tag或文本节点使用,
+    实际上返回结果是一个列表或 ResultSet 对象的字符串,
+    需要对结果进行循环才能得到每个节点的 .foo 属性.
+    或者使用 find() 方法仅获取到一个节点
+    '''
  
     
 
     #中文筛选语句   [\u4e00-\u9fa5]
     #compil_dire = r'导演<.*?><.*>(.+)</a>'
     #compil_writ = r'编剧<.*?><.*>(.+)</a>'
-   #compil_star = r'rel=\"v:starring\">(.*)</a>'
     #compil_cate = 
     #compil_loca = r'制片国家/地区:<.*?> (.+)<.*>' 
     #compil_lang = r'语言:<.*?> (.+)<.*>' 
@@ -3174,7 +3194,7 @@ def get_douban_inf():
     #dire = re.findall(compil_dire,str(mov_info))
     #writ = re.findall(compil_writ,str(mov_info))
     #star = re.findall(compil_star,str(mov_info))
-    #cate = re.findall(compil_cate,str(mov_info))
+    cate = re.findall(compil_cate,str(mov_info))
     #loca = re.findall(compil_loca,str(mov_info))
     #lang = re.findall(compil_lang,str(mov_info))
     #date = re.findall(compil_date,str(mov_info))
@@ -3187,7 +3207,7 @@ def get_douban_inf():
     #print(dire) 
     #print(writ)
     #print(star)
-    #print(cate)
+    print(cate)
     #print(loca)
     #print(lang)
     #print(date)
