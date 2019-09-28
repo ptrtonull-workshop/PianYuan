@@ -116,13 +116,13 @@ git push origin :bug#1
 ```
 To delete the useless branch on Github.
 ## Q&A
-> 哪些操作需要直接在Github上提交？
-- README文档需要更新
-- CI配置文件需要更新
->哪些情况需要直接同步到`master`分支？
-- 有重大更新，可能是一天积累的；
-- 涉及到CI的配置文件的；
-- 紧急的BUG
+> Which opration can push on Github directly哪些操作需要直接在Github上提交？
+- Update the README
+- Update the CI configuration.
+>Which condition need to sychronize to the `master`directly?
+- Significant update
+- Come down to CI configuration
+- Enmergency Bug
 </details>
 
 
