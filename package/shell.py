@@ -6,7 +6,9 @@ def init():
 
 
 def test():
-    os.system("flake8  --ignore E501")
+    # if os.system("flake8  --ignore E501") == 1:
+    if os.system("flake8  --ignore E501") != 0:
+        exit("test error")
 
 
 def beautify():
