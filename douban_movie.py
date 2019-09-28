@@ -3168,15 +3168,13 @@ def get_douban_inf():
         for child1 in com_name_te:
             print(child1.string)
 
-        
-
         com = child.find_all(class_="short")
         if(child.find_all(class_="short"))
-        
-        
+
+
         for child2 in com:
             print(child2.string)
-        
+
         print("")
 
     """
@@ -3213,7 +3211,7 @@ def get_douban_inf():
     compil_lang = r'语言:<.*?> (.+)<.*>' 
     compil_runt = r'片长:<.*?>.*<.*?>(.+)</.*>'
     compil_otna = r'又名:<.*?> (.+)<.*>'
-    
+
 
     dire = re.findall(compil_dire,str(mov_info))
     writ = re.findall(compil_writ,str(mov_info))
@@ -3221,9 +3219,9 @@ def get_douban_inf():
     lang = re.findall(compil_lang,str(mov_info))
     runt = re.findall(compil_runt,str(mov_info))
     otna = re.findall(compil_otna,str(mov_info))
-    
-  
-    print(dire) 
+
+
+    print(dire)
     print(writ)
     print(loca)
     print(lang)
