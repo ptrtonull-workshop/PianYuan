@@ -1,56 +1,57 @@
 # Exploit
 
-## 爬取 
-你可以使用以下命令，把[此处](http://pianyuan.la/mv?order=score)的电影爬取到数据库里
+## Crawling
+You can use those command to get the movies which from [there](http://pianyuan.la/mv?order=score) in the database 
 ```python
 python main.py -G start end host username password
 ```
-其中：
-- `-G`：代表`get`，获取信息
-- start：爬取的开始页，比如start等于3的时候对应的网站是[此处](http://pianyuan.la/mv?order=score&p=3)
-- end：爬取的结束页，比如end等于3的时候对应的网站是[此处](http://pianyuan.la/mv?order=score&p=3)
-- host：数据库的地址
-- username：数据库用户的用户名
-- password：数据库用户的密码
+Details：
+- `-G`：represents `get`，to get information
+- start:The start page of crawling，such as the url is [此处](http://pianyuan.la/mv?order=score&p=3)when start equals to 3.
+- end:The end page of crawling，such as the url is [此处](http://pianyuan.la/mv?order=score&p=3)
+when start equals to 3.
+- host：database's address
+- username：database's username
+- password：datebase's password
 
-如果你的数据库账号没有密码，即密码为空，那你可以执行下面的命令来达到相同的效果
+if your database have not password-meaning password is empty-Then you can execute the following command to realize the same function
 ```python   
 python main.py -G start end host username
 ```
-此外，你还可以使用以下命令来查看数据库中的数据条数
+Otherwise, you can use the following code to check the database's the amount of data.
 ```
 python main.py -M number localhost root root
 ```
-> 当然，如果你要看更详细的条目，请直接登录数据库查看
-## 开发
-在你开发时，我们为你准备了协助性的命令脚本，格式为：
-
+> If course, if you want to see more details,please login in the database directly.当
+## Development
+When you develop, we prepare the assist script to help you. The format is:
 ```python
 python main.py -S action
 ```
-其中：
-- `-S`：代表`shell`，标记此条语句执行的是一些协助性的命令脚本
-- action：代表要执行的动作，目前支持的动作有：
+details:
+- `-S`：represents `shell` . To sign the code is a assist script.
+- action：repressent the action which is ready to execute. Up to now the support actions are:
   - init
   - beautify
   - test
 
-当你得到本项目的源码时，你第一步要做的就是安装项目所需要的依赖，你可以使用
+When you get the code, The first things is setting the initation. You can use:
 ```python
 python main.py -S init
 ```
-
+When you finish your code and 
 当你完成你的代码并且验证了要达到的功能后，你可以使用下面的命令来优化格式
 ```
 python main.py -S beautify
 ```
-当你要往仓库上传代码时，为了让你的CI能通过你的代码，你可以使用下面的命令查看代码中的格式错误，请确保此命令结束后没有返回信息，这样说明你的代码是符合规范的
+When you want to update your code to the repository, you can use the following order to check the format error in your code to insure the code is compliance with requirements for access the CI's check.
+
 ```python
 python main.py -S test
 ```
-## 其它
+## Other
 <details>
-<summary><mark><font color=darkred>如何贡献本项目</font></mark></summary>
+<summary><mark><font color=darkred>How to work with us </font></mark></summary>
 
 ## 问题的开端
 你有以下几种方式参与本项目：

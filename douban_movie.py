@@ -1,3 +1,4 @@
+
 from bs4 import BeautifulSoup
 import requests
 import bs4
@@ -3152,19 +3153,35 @@ def get_douban_inf():
     mov_info = soup(id="info")[0]
 
 
+    #for循环里面的东西不能重复
 
     comment_info = soup.find_all(class_="comment")
     for child in comment_info:
-        #com_name_te = child.find_all(name='a',class_="")
-        #for child in com_name_te:
-        #    print(child.string)
+        com_name_te = child.find_all(name='a',class_="")
+        for child1 in com_name_te:
+            if child1.string =='展开':
+            else
+                print(child1.string)
+        
+    '''
+    comment_info = soup.find_all(class_="comment")
+    for child in comment_info:
+        com_name_te = child.find_all(name='a',class_="")
+        for child1 in com_name_te:
+            print(child1.string)
 
-       
+        
+
         com = child.find_all(class_="short")
-        for child in com:
-            print(child.string)
+        if(child.find_all(class_="short"))
         
         
+        for child2 in com:
+            print(child2.string)
+        
+        print("")
+
+    '''
 
 
 
