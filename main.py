@@ -21,7 +21,7 @@ def main():
         elif sys.argv[2] == "init":
             shell.init()
         elif sys.argv[2] == "test":
-            return shell.test()
+            shell.test()
         elif sys.argv[2] == "beautify":
             shell.beautify()
         else:
