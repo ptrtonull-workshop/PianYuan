@@ -40,7 +40,7 @@ When you get the code, The first things is setting the initation. You can use:
 python main.py -S init
 ```
 When you finish your code and 
-当你完成你的代码并且验证了要达到的功能后，你可以使用下面的命令来优化格式
+You can use the following command to adjust// your format.
 ```
 python main.py -S beautify
 ```
@@ -53,41 +53,40 @@ python main.py -S test
 <details>
 <summary><mark><font color=darkred>How to work with us </font></mark></summary>
 
-## 问题的开端
-你有以下几种方式参与本项目：
-- 直接在本仓库创建暂时分支，通过pull request 来合并代码
-- fork 本项目，通过pull request来合并代码
-- 提issue，由仓库管理员来改进
-### 创建分支
-如果你是仓库管理员，拥有直接读写仓库的权限，那么当你有一个改进时，请在[issue](https://github.com/ptrtonull-workshop/PianYuan/issues)提供一个详细的记录，你可以标记这是一个`bug`或者`feature`，并写下具体的描述。
-接下来，我将为您示范在此情况下如何修正一个bug：
-#### 克隆或更新仓库代码
-执行
+## How to join us 
+You have the following ways to join us：
+- Create a temperate branch directly，and pull request the code.
+- fork this project and pull request to the code.
+- add a issue to help us to be better.
+### Create a branch
+If you are the administrator of the repository, if you have an update, please push your update's introduction in [issue](https://github.com/ptrtonull-workshop/PianYuan/issues), and you can sign that this is a `bug` or `feature`.
+#### Clone or update repository's code
+execute
 ```git
 git clone https://github.com/ptrtonull-workshop/PianYuan.git
 cd ./pianyuan
 ```
-来克隆本仓库的`dev`分支代码，通常情况下，这个分支的代码是最新的，当然，如果你以前已经克隆过了，那就请您更新一次您的代码，使您的代码保持最新。
+To clone `dev` branch. Usually the branch's code is newest. And if you have clone it before, please update again to make sure that the code is the newest.
 
-如果您第一次下载代码，则意味着您很可能没有本项目需要的相关包，请执行
+If it's the first time that you download the code which means you don't have any package properly. Please execute
 ```
 python main.py -S init
 ```
-来初始化项目来获得本项目需要的包
-#### 新建bug分支
-在GitHub [issue](https://github.com/ptrtonull-workshop/PianYuan/issues)上提交一个`issue`, 记录下bug的情况，记下`issue`的号码，例如您新建了一个编号为#1的`issue`:
-使用
+to init the project to get the package which you need.
+#### New a bug branch
+You need to push a `issue` on the Github [issue](https://github.com/ptrtonull-workshop/PianYuan/issues) and record the bug information and the bug's number.(such as #1)
+Use
 ```git
 git branch bug#1
 git checkout bug#1
 ```
-从`dev`分支创立并切换到一个bug分支来修复这个bug，#后的号码为`issue`的号码，在这个分支中进行bug的修复。
-#### 检查代码
-在本地文件夹中执行
+To create a bug branch to fix it from `dev` branch. The number after the # is the `issue` number, and fix the bug in this branch.
+#### Check code
+Execute in the local folder
 ```python
 python main.py -G 1 1 hostname username password
 ```
-后，程序会自动写入数据到数据库，来测试你的代码的功能是否正常
+after that, the progam will write the data in the database automaticlly to test whether your code is normal.
 
 其中
 - hostname:数据库地址
