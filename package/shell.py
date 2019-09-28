@@ -6,8 +6,8 @@ def init():
 
 
 def test():
-    os.system("flake8  --ignore E501")
+    return os.system("flake8  --ignore E501")
 
 
 def beautify():
-    os.system("black ./package")
+    print(os.system("black ./package"))

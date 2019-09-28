@@ -1,10 +1,9 @@
-
 from bs4 import BeautifulSoup
 import requests
 import bs4
 import re
 
-mainWeb ="""
+mainWeb = """
  '<html class="ua-windows ua-ff69" lang="zh-cmn-Hans"><head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="renderer" content="webkit">
@@ -3144,26 +3143,25 @@ for(var i = 0, l = accounts.length; i < l; i++) {
 """
 
 
-
 def get_douban_inf():
-    #direct:导演  starring:演员  genre：
-    #inf = {'direct':'null','starring':'null','genre':'null','loca':'null','lang':'null','time':'null'}
-    #response = requests.get(url)
-    soup = BeautifulSoup(mainWeb,'html.parser')
+    # direct:导演  starring:演员  genre：
+    # inf = {'direct':'null','starring':'null','genre':'null','loca':'null','lang':'null','time':'null'}
+    # response = requests.get(url)
+    soup = BeautifulSoup(mainWeb, "html.parser")
     mov_info = soup(id="info")[0]
 
-
-    #for循环里面的东西不能重复
+    # for循环里面的东西不能重复
 
     comment_info = soup.find_all(class_="comment")
     for child in comment_info:
-        com_name_te = child.find_all(name='a',class_="")
+        com_name_te = child.find_all(name="a", class_="")
         for child1 in com_name_te:
-            if child1.string =='展开':
-            else
+            if child1.string == "展开":
+                print("")
+            else:
                 print(child1.string)
-        
-    '''
+
+    """
     comment_info = soup.find_all(class_="comment")
     for child in comment_info:
         com_name_te = child.find_all(name='a',class_="")
@@ -3181,12 +3179,10 @@ def get_douban_inf():
         
         print("")
 
-    '''
+    """
 
 
-
-
-'''
+"""
 
     #获取电影简介（以string形式输出）
     intro_te = soup(name='span',attrs={"property":"v:summary"})
@@ -3235,10 +3231,9 @@ def get_douban_inf():
     print(runt)
     print(otna)
 
-'''
+"""
 
 
-
-#主程序入口，最后封装请直接删除
-if __name__=='__main__':
+# 主程序入口，最后封装请直接删除
+if __name__ == "__main__":
     get_douban_inf()
