@@ -9,7 +9,7 @@ def get_douban_inf():
     # direct:导演  starring:演员  genre：
     # inf = {'direct':'null','starring':'null','genre':'null','loca':'null','lang':'null','time':'null'}
     # response = requests.get(url)
-    htmlfile = open("../html/mainWeb.html", "r",encoding='utf8')
+    htmlfile = open("../html/mainWeb.html", "r", encoding="utf8")
     htmlpage = htmlfile.read()
 
     soup = BeautifulSoup(htmlpage, "html.parser")
