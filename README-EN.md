@@ -88,34 +88,33 @@ python main.py -G 1 1 hostname username password
 ```
 after that, the progam will write the data in the database automaticlly to test whether your code is normal.
 
-其中
-- hostname:数据库地址
-- username:用户名
-- password:用户名密码，为空的时候可以不填
+Details:
+- hostname:database address
+- username:database username
+- password:database password(if it's empty,miss it)
 
-在本地项目文件夹中执行
+Execute in the local folder
 ```pip
 python main.py -S beautify
 python main.py -S test
 ```
-来规范你的python代码，以符合flake8的规范。再使用flake8确认`main.py`中的语法错误和书写规范，如有不符合`flake`规范，提交的代码将无法通过`CI`的检查
-在这条语句中，`E501`的意思是：你最多只能在一行中写79个字符，这个规定过于苛刻，故我们将它删除了
+Standarding your python code to accord with the standard the flake8. Please use flake8 to ensure `main.py` grammer error and writing norms.if your code has some problems, `CI` will intercept you to push the code.
+`E501` means: You can write 79 characters at one line.This rule is too rigor to do, so we delete it.
 ```
 E501: E501 line too long (81 > 79 characters)
 ```
-#### 提交
-修复完毕后，commit此次修改
-完毕后，执行
+#### Push
+after fixing the bug, commit your adjusting.
+Then execute
 ```git
 git push origin bug#1
 ```
-来推送该分支到Github。切换到Github，我们再将`bug#1` 通过`pull request`与`dev`分支合并，在这个过程中，我们的CI会检查代码。
-
-等待合并完成之后，我们在本地执行
+to push the branch to Github. Switch to Github, we combine `bug#1` and `dev` through `pull request`. CI will check the code automaticlly.
+After that,execute
 ```git
 git push origin :bug#1
 ```
-来远程删除在Github上的多余的分支
+To delete the useless branch on Github.
 ## Q&A
 > 哪些操作需要直接在Github上提交？
 - README文档需要更新
