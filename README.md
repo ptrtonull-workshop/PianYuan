@@ -2,7 +2,7 @@
 
 [English](./README-EN.md)
 ## 爬取
-你可以使用以下命令，把[此处](http://pianyuan.la/mv?order=score)的电影爬取到数据库里
+你可以使用以下命令，把[此处](http://pianyuan.la/mv?order=score)的电影到数据库里
 ```python
 python main.py -G start end host username password
 ```
@@ -36,7 +36,7 @@ python main.py -S action
   - beautify
   - test
 
-当你得到本项目的源码时，你第一步要做的就是安装项目所需要的依赖，你可以使用
+当你得到本项目的源码时，你第一步要做的就是安装项目所需要的初始化文件，你可以使用
 ```python
 python main.py -S init
 ```
@@ -45,22 +45,20 @@ python main.py -S init
 ```
 python main.py -S beautify
 ```
-当你要往仓库上传代码时，为了让你的CI能通过你的代码，你可以使用下面的命令查看代码中的格式错误，请确保此命令结束后没有返回信息，这样说明你的代码是符合规范的
+当你要往仓库上传代码时，为了让你的CI能通过你的代码，你可以使用下面的命令查看代码中的格式错误，以确保你的代码符合规范。符合规范的情况为此命令结束后没有返回信息。
 ```python
 python main.py -S test
 ```
 ## 其它
 <details>
-<summary><mark><font color=darkred>如何贡献本项目</font></mark></summary>
+<summary><mark><font color=darkred>如何参与本项目</font></mark></summary>
 
 ## 问题的开端
-你有以下几种方式参与本项目：
 - 直接在本仓库创建暂时分支，通过pull request 来合并代码
 - fork 本项目，通过pull request来合并代码
 - 提issue，由仓库管理员来改进
 ### 创建分支
 如果你是仓库管理员，拥有直接读写仓库的权限，那么当你有一个改进时，请在[issue](https://github.com/ptrtonull-workshop/PianYuan/issues)提供一个详细的记录，你可以标记这是一个`bug`或者`feature`，并写下具体的描述。
-接下来，我将为您示范在此情况下如何修正一个bug：
 #### 克隆或更新仓库代码
 执行
 ```git
