@@ -7,8 +7,8 @@ python main.py -G start end host username password
 ```
 Details：
 - `-G`：represents `get`，to get information
-- start:The start page of crawling，such as the url is [此处](http://pianyuan.la/mv?order=score&p=3)when start equals to 3.
-- end:The end page of crawling，such as the url is [此处](http://pianyuan.la/mv?order=score&p=3)
+- start:The start page of crawling，such as the url is [here](http://pianyuan.la/mv?order=score&p=3)when start equals to 3.
+- end:The end page of crawling，such as the url is [here](http://pianyuan.la/mv?order=score&p=3)
 when start equals to 3.
 - host：database's address
 - username：database's username
@@ -22,7 +22,7 @@ Otherwise, you can use the following code to check the database's the amount of 
 ```
 python main.py -M number localhost root root
 ```
-> If course, if you want to see more details,please login in the database directly.当
+> If course, if you want to see more details,please login in the database directly.
 ## Development
 When you develop, we prepare the assist script to help you. The format is:
 ```python
@@ -116,7 +116,7 @@ git push origin :bug#1
 ```
 To delete the useless branch on Github.
 ## Q&A
-> Which opration can push on Github directly哪些操作需要直接在Github上提交？
+> Which opration can push on Github directly
 - Update the README
 - Update the CI configuration.
 >Which condition need to sychronize to the `master`directly?
