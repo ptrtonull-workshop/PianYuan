@@ -6,8 +6,7 @@ def init():
 
 
 def test():
-    # if os.system("flake8  --ignore E501") == 1:
-    if os.system("flake8  --ignore E501") != 0:
+    if os.system("flake8  --ignore E501 F403 F405 F401") != 0:
         exit("test error")
 
 

@@ -1,5 +1,6 @@
-from pianyuan  import *
+from pianyuan import *
 import os
-upload = "twine upload dist/pianyuan-"+version+".tar.gz"
+
+upload = "twine upload dist/pianyuan-" + version + ".tar.gz"
 os.system(r"python setup.py sdist")
 os.system(upload)
