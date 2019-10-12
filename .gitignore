@@ -4,3 +4,6 @@
 !.vscode/launch.json
 !.vscode/extensions.json
 package/__pycache__/*
+pianyuan.egg-info
+dist
+buid

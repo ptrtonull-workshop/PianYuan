@@ -1,6 +1,8 @@
+-
 [![Build Status](https://travis-ci.com/ptrtonull-workshop/PianYuan.svg?branch=master)](https://travis-ci.com/ptrtonull-workshop/PianYuan)
 
 [English](./README-EN.md)
+
 ## 爬取
 你可以使用以下命令，把[此处](http://pianyuan.la/mv?order=score)的电影到数据库里
 ```python
@@ -49,7 +51,10 @@ python main.py -S beautify
 ```python
 python main.py -S test
 ```
+![](./捕获.PNG)
+
 ## 其它
+
 <details>
 <summary><mark><font color=darkred>如何参与本项目</font></mark></summary>
 

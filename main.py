@@ -1,7 +1,7 @@
 import sys
-from package import spider
-from package import mysql
-from package import shell
+from pianyuan import spider
+from pianyuan import mysql
+from pianyuan import shell
 
 
 def main():

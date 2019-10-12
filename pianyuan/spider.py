@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 import bs4
-from package import mysql
+from pianyuan import mysql
 import time
 
 mainWeb = "http://www.pianyuan.la"
