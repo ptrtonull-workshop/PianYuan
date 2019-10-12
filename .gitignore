@@ -5,5 +5,7 @@
 !.vscode/extensions.json
 package/__pycache__/*
 pianyuan.egg-info
+pianyuan/__pycache__
 dist
 build
+pianyuan/__pycache__/shell.cpython-37.pyc

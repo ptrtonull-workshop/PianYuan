@@ -11,4 +11,4 @@ def test():
 
 
 def beautify():
-    os.system("black ./package")
+    os.system("black ./pianyuan")
