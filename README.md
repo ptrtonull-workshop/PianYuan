@@ -50,7 +50,6 @@ python main.py -S beautify
 ```python
 python main.py -S test
 ```
-![](./捕获.PNG)
 
 ## 其它
 
