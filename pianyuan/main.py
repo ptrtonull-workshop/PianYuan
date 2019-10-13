@@ -5,6 +5,8 @@ from pianyuan.package import *
 
 
 def main():
+    start =0
+    end =0
     host = ""
     usename = ""
     password = ""
@@ -16,15 +18,19 @@ def main():
     args = parser.parse_args()
     if args.G or args.g:
         if args.G:
+            start = args.G[0]
+            end = args.G[0]
             host = args.G[2]
             usename = args.G[3]
             password = args.G[4]
         elif args.g:
+            start = args.G[0]
+            end = args.G[0]
             host = args.g[2]
             usename = args.g[3]
         acc = mysql.modify(host, usename, password)
         db = mysql.create(acc)
-        run(args.G[0], args.G[1], db)
+        run(start, end)
     if args.S:
         if args.S[0] == "init":
             init()
