@@ -12,4 +12,4 @@ install:
 script:
     - python setup.py install
     - pianyuan -S test
-    - pianyuan -G 1 1 localhost root
+    - pianyuan -g 1 1 localhost root
