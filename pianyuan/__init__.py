@@ -1,5 +1,1 @@
-from __future__ import absolute_import
-from .pianyuan import *
-
-name = "pianyuan"
-version = "1.0.8"
+{"inf": [{"version": "1.2.3"}]}
