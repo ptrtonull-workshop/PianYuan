@@ -24,8 +24,8 @@ def main():
             usename = args.G[3]
             password = args.G[4]
         elif args.g:
-            start = args.G[0]
-            end = args.G[0]
+            start = args.g[0]
+            end = args.g[0]
             host = args.g[2]
             usename = args.g[3]
         acc = mysql.modify(host, usename, password)
