@@ -10,5 +10,6 @@ env:
 install:
     - pip install -r requirements.txt
 script:
-    - python main.py -S test
-    - python main.py -G 1 1 localhost root
+    - python setup.py install
+    - pianyuan -S test
+    - pianyuan -G 1 1 localhost root
