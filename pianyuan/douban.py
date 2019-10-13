@@ -9,7 +9,11 @@ def get_douban_inf():
     # direct:导演  starring:演员  genre：
     # inf = {'direct':'null','starring':'null','genre':'null','loca':'null','lang':'null','time':'null'}
     # response = requests.get(url)
-    htmlfile = open("C:/Users/97607/Documents/GitHub/Python/PianYuan/html/mainWeb.html", "r", encoding="utf8")
+    htmlfile = open(
+        "C:/Users/97607/Documents/GitHub/Python/PianYuan/html/mainWeb.html",
+        "r",
+        encoding="utf8",
+    )
     htmlpage = htmlfile.read()
 
     soup = BeautifulSoup(htmlpage, "html.parser")
@@ -17,32 +21,27 @@ def get_douban_inf():
 
     # for循环里面的东西不能重复
 
-
-
-    #评论
+    # 评论
 
     comment_info = soup.find_all(class_="comment")
     for child in comment_info:
         com_name_te = child.find_all(name="a", class_="")
         for childc1 in com_name_te:
             if childc1.string == "展开":
-                print() 
+                print()
             else:
                 print(childc1.string)
 
-        com_say = child.find_all(name="span",class_="short")
-        com_say_re = child.find_all(name="span",class_="hide-item full")
+        com_say = child.find_all(name="span", class_="short")
+        com_say_re = child.find_all(name="span", class_="hide-item full")
         for childc2 in com_say_re:
-            if childc2.string =="":
+            if childc2.string == "":
                 for childc3 in com_say:
                     print(childc3.string)
             else:
                 print(childc2.string)
 
-
-
-
-    #简介
+    # 简介
     """
     comment_info = soup.find_all(class_="comment")
     for child in comment_info:

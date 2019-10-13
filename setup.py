@@ -15,4 +15,9 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/ptrtonull-workshop/pianyuan",
     packages=setuptools.find_packages(),
+    entry_points = {
+        'console_scripts': [
+            'pianyuan = pianyuan.main:main',
+        ]
+    }
 )
