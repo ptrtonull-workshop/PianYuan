@@ -2,7 +2,7 @@ import os
 
 
 def init():
-    os.system("pip install -r requirements.txt")
+    os.system("pip3 install -r requirements.txt")
 
 
 def test():
@@ -11,4 +11,5 @@ def test():
 
 
 def beautify():
+    os.system("black ./")
     os.system("black ./pianyuan")
