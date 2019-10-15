@@ -1,9 +1,9 @@
 import setuptools
 from pianyuan import *
 
+
 with open("README.md", "r", encoding="UTF-8") as fh:
     long_description = fh.read()
-
 
 setuptools.setup(
     name="pianyuan",
@@ -15,4 +15,5 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/ptrtonull-workshop/pianyuan",
     packages=setuptools.find_packages(),
+    entry_points={"console_scripts": ["pianyuan = pianyuan.main:main"]},
 )
