@@ -56,3 +56,11 @@ def add(info, db):
 def number(db):
     cur = db.cursor()
     print("共有%d条记录" % cur.execute("SELECT * FROM pianyuan.film;"))
+
+
+def clean(db):
+    cur = db.cursor()
+    sql = "use pianyuan;truncate table film;"
+    cur.execute(sql)
+    db.commit()
+    db.close()

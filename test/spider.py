@@ -157,7 +157,7 @@ def page_link(page):
 #
 #   ]
 # ]
-def get_list_all(page):
+def get_list(page):
     url = page_link(page)  # 取得这一页的地址
     all_res_in_film = []
     response = requests.get(url)
@@ -173,19 +173,15 @@ def get_list_all(page):
     return all_res_in_film
 
 
-def get_list(url, page, db):
+# get all res in a page and save to database
+# page: the page number you want to get, likes 1, it means http://pianyuan.la/mv?order=score&p=1
+# db: the database you create
+def spider_ui(page, db):
+    all_res_in_film = get_list(page)
     film_list_number = 0
-    response = requests.get(url)
-    soup = BeautifulSoup(response.text, "html.parser")
-    items = soup.find_all(
-        name="div", attrs={"class": "col-sm-3 col-md-3 col-xs-4 col-lg-2 nopl"}
-    )  # 取得一个页面的所有电影
     start = time.time()
     for x in range(0, 118, 3):  # 存一部电影的所有资源信息到数据库
-        i = items[film_list_number]  # 取其中一部电影
-        film = i.find(name="a")
-        film["href"] = "http://pianyuan.la" + film["href"]  # 取得一部电影的链接
-        all_res = get_more_film(film["href"])  # 取得一部电影的所有资源到all_res里
+        all_res = all_res_in_film[film_list_number]
         for r in all_res:  # 取得某一个资源
             mysql.add(r, db)
         num = x // 2
@@ -210,8 +206,12 @@ def get_list(url, page, db):
             film_list_number = film_list_number + 1
 
 
+# get the inf of page s to f to database db
+# s: start page, likes 1
+# f: final page , likes 2
+# db: the database you created used mysql.create
 def run(s, f, db):
     page = int(s)
     while page <= int(f):
-        get_list(page_link(page), page, db)
+        spider_ui(page, db)
         page = page + 1
