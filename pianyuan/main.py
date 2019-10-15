@@ -32,7 +32,7 @@ def main():
             usename = args.g[3]
         acc = mysql.modify(host, usename, password)
         db = mysql.create(acc)
-        run(start, end)
+        run(start, end, db)
     if args.S:
         if args.S[0] == "init":
             init()
