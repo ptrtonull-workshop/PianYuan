@@ -1,7 +1,7 @@
-from pianyuan import getInf
+from pianyuan import *
 import os, sys
 
-version = getInf.getVersion()
+
 upload_path = "twine upload " + os.getcwd() + "\\dist\\pianyuan-" + version + ".tar.gz"
 
 
