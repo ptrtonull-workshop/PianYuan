@@ -158,6 +158,31 @@ def page_link(page):
 #   ]
 # ]
 def get_list_all(page):
+    film_list = get_film_name_in_page(page)
+    all_res_in_film = []
+    for item in film_list:
+        all_res_ = get_more_film(item["url"])  # 取得一部电影的所有资源到all_res里
+        all_res_in_film.append(all_res_)
+    return all_res_in_film
+
+
+# get film inf from all film page
+# page : page number, likes 1, stand for http://pianyuan.la/mv?order=score&p=1
+# return:PS D:\File\vscode\pianyuan> python test.py
+# [
+# {
+#   'name': '今日比赛 (1964)',
+#   'url': 'http://pianyuan.la/m_DtwbEH3c0.html',
+#   'cover': 'http://pianyuan.la/Uploads/Picture/litpic/06/15Jun2018115715.jpg'
+# },
+# {
+#   'name': '久石让在武道馆：与宫崎骏动画一同走过的25年 (2008)',
+#   'url': 'http://pianyuan.la/m_Dw5bWHuc0.html',
+#   'cover': 'http://pianyuan.la/Uploads/Picture/litpic/07/24Jul2015082439.jpg'
+# },
+# ]
+def get_film_name_in_page(page):
+    file_inf = []
     url = page_link(page)  # 取得这一页的地址
     all_res_in_film = []
     response = requests.get(url)
@@ -165,14 +190,19 @@ def get_list_all(page):
     items = soup.find_all(
         name="div", attrs={"class": "col-sm-3 col-md-3 col-xs-4 col-lg-2 nopl"}
     )  # 取得一个页面的所有电影
-    for item in items:
-        film = item.find(name="a")
+    for i in items:
+        films = {"name": "null", "url": "null", "cover": "null"}
+        film = i.find(name="a")
         film["href"] = "http://pianyuan.la" + film["href"]  # 取得一部电影的链接
-        all_res_ = get_more_film(film["href"])  # 取得一部电影的所有资源到all_res里
-        all_res_in_film.append(all_res_)
-    return all_res_in_film
+        films["url"] = film["href"]
+        films["name"] = film["title"]
+        films["cover"] = film.find(name="img")["data-original"]
+        films["cover"] = "http://pianyuan.la" + films["cover"]
+        file_inf.append(films)
+    return file_inf
 
 
+# the ui version of function get_list_all()
 def get_list(url, page, db):
     film_list_number = 0
     response = requests.get(url)
@@ -215,3 +245,23 @@ def run(s, f, db):
     while page <= int(f):
         get_list(page_link(page), page, db)
         page = page + 1
+
+
+# get a film name from res url
+# url: film page link likes http://pianyuan.la/r_ZZzxDe3g0.html
+# return : 疯狂动物城 Zootopia (2016)
+def get_film_name(url):
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, "html.parser")
+    items = soup.find_all(name="div", attrs={"class": "col-sm-10"})
+    items = soup.find_all(name="h2")
+    return items[0].string
+
+
+def get_page_num():
+    num = 0
+    url = "http://pianyuan.la/mv?order=score&p=99999999999999999999"
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, "html.parser")
+    item = soup.find_all(name="span", attrs={"class": "current"})
+    return item[0].string

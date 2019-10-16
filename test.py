@@ -1,5 +1,6 @@
 from pianyuan.spider import *
 from pianyuan.mysql import *
+from pianyuan.download import *
+from pianyuan.package import *
 
-m = get_list(1)
-print(m[2])
+print(get_version())

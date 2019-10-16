@@ -2,6 +2,7 @@ import argparse
 from pianyuan.spider import *
 from pianyuan.shell import *
 from pianyuan.package import *
+from pianyuan.download import *
 
 
 def main():
@@ -17,6 +18,7 @@ def main():
     )
     parser.add_argument("-S", help="Shell action", type=str, nargs=1)
     parser.add_argument("-P", help="package action", type=str, nargs=1)
+    parser.add_argument("-D", help="download action", type=str, nargs=1)
     args = parser.parse_args()
     if args.G or args.g:
         if args.G:
@@ -51,6 +53,11 @@ def main():
             update()
         else:
             print("There is no action : " + args.S[0])
+    if args.D:
+        if args.D[0] == "bt":
+            get_all_film_bt("./bt")
+        else:
+            print("There is no action" + args.D[0])
 
 
 if __name__ == "__main__":
