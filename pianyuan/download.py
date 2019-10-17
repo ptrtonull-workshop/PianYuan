@@ -1,5 +1,6 @@
 import requests, os
 from pianyuan import spider
+import time
 
 # download torrent from direct download url, save as name.torrent
 # url: download link likes https://pianyuan.la/dlbt/WlpXbDcxdWcwfDg5M2U3ZjJhODVhMDE1ZTVhZDY2YmJmMXwxNTcxMTUwNzQ3fDMwMGFjOTU0
@@ -16,9 +17,10 @@ def download_from_url(url, path, name):
 # path: loacl save path likes: ./
 # name : filename likes yourname
 def download(url, path, name):
-    down = spider.get_film_download(url)
-    down = down["url"]
-    download_from_url(down, path, name)
+    if spider.get_film_download(url) != False:
+        down = spider.get_film_download(url)
+        down = down["url"]
+        download_from_url(down, path, name)
 
 
 # download all bt in different folders in one page
@@ -31,13 +33,23 @@ def download_all_in_page(page, path):
     film_all = spider.get_film_name_in_page(page)
     for i in film_all:
         film_name = i["name"]
-        film_name = film_name.replace("/", " and ").replace(":", " ")
+        film_name = film_name.replace("/", " ").replace(":", " ")
         paths = path
         paths += "/" + film_name
         mkdir(paths)
         film_res_all = spider.get_more_film(i["url"])
         for j in film_res_all:
-            download(j["url"], paths, j["movie_name"])
+            if spider.get_res_num(
+                spider.get_film_url_from_res(j["url"])
+            ) != get_file_num(
+                paths
+            ):  # if the film not download compeletly
+                download(j["url"], paths, j["movie_name"])  # download bt
+            # print(film_name+spider.get_film_url_from_res(j['url']))
+            else:
+                print("already done!")
+                break
+        print("The film:" + film_name + " done!")
 
 
 # create a folder
@@ -60,7 +72,27 @@ def mkdir(path):
         return False
 
 
-def get_all_film_bt(path):
-    for i in range(int(spider.get_page_num())):
+def get_all_film_bt(start, path):
+    s1 = time.time()
+    i = start - 1
+    while i < int(spider.get_page_num()):
+        s = time.time()
         download_all_in_page(i + 1, path)
-    print("all bt save in" + path)
+        e = time.time()
+        print("++++++++page " + str(i + 1) + " done!" + str(e - s) + "s has passed!")
+        i += 1
+    e1 = time.time()
+    print("all bt save in" + path + " time is " + str(e1 - s1) + "s")
+
+
+# get loacl bt film num
+# pathname: the folder's path, likes D:\File\vscode\pianyuan\bt\今日比赛 (1964)
+# return the bt num of this page, likes 1
+def get_file_num(pathname):
+    import os
+
+    path = pathname
+    count = 0
+    for file in os.listdir(path):  # file 表示的是文件名
+        count = count + 1
+    return count

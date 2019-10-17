@@ -32,6 +32,8 @@ def main():
             end = args.g[0]
             host = args.g[2]
             usename = args.g[3]
+        from .pianyuan import mysql
+
         acc = mysql.modify(host, usename, password)
         db = mysql.create(acc)
         run(start, end, db)

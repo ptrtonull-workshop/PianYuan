@@ -1,5 +1,6 @@
 import os, sys
 
+
 def get_version():
     v = ""
     flag = 0
@@ -10,7 +11,7 @@ def get_version():
                 if i >= 11 and i < len(tmp) - 2:
                     v = v + tmp[i]
     except:
-        return 
+        return
     return v
 
 
