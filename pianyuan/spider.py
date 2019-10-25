@@ -10,9 +10,6 @@ mv_web = "http://pianyuan.la/mv?order=score"
 # get film page from main page's recommend
 # page : page number of main recommend list
 # number : the film position in page
-
-
-# Question A: how can we get the recommend movies' name and match with its href?
 def get_recommend(page, number):
     if page == 1:
         web = mainWeb
@@ -59,7 +56,10 @@ def get_link(url):
     douban = soup.find_all(name="a", attrs={"title": "豆瓣链接"})
     more = soup.find_all(name="a", attrs={"class": "text-danger"})
     res["douban"] = "https:" + douban[0]["href"]
-    res["more"] = "http://pianyuan.la" + more[0]["href"]
+    try:
+        res["more"] = "http://pianyuan.la" + more[0]["href"]
+    except:
+        res["more"] = "null"
     return res
 
 
@@ -368,3 +368,12 @@ def delect_mulit_chinese(Str):
             inf[1] + "  ", "", 1
         )  # replay one Chinese name from Complete string
     return temp
+
+
+# ge
+def get_douban_from_film(url):
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, "html.parser")
+    item = soup.find(name="a",attrs={"title":"豆瓣链接"})
+    item=item['href'].replace("//movie.douban.com/subject/","").replace("/","")
+    return item

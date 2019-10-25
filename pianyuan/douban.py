@@ -109,7 +109,6 @@ def get_douban_inf():
     print(date)
     print(runt)
     print(otna)
-
 """
 
 
