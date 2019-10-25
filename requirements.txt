@@ -5,3 +5,4 @@ flake8==3.7.8
 mysqlclient==1.4.4
 black==19.3b0
 twine==2.0.0
+requests==2.21.0
