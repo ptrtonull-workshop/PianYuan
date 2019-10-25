@@ -13,8 +13,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-G", help="login in mysql and Crawl", type=str, nargs=5)
     parser.add_argument(
-        "-g", help="login in mysql without password and Crawl", type=str, nargs=4
-    )
+        "-g", help="login in mysql without password and Crawl", type=str, nargs=4)
     parser.add_argument("-S", help="Shell action", type=str, nargs=1)
     parser.add_argument("-P", help="package action", type=str, nargs=1)
     args = parser.parse_args()

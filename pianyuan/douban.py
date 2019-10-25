@@ -1,25 +1,29 @@
 from bs4 import BeautifulSoup
 
-# import requests
-# import bs4
+import requests
 # import re
 
+def get_html(url):
 
-def get_douban_inf():
-    # direct:导演  starring:演员  genre：
-    # inf = {'direct':'null','starring':'null','genre':'null','loca':'null','lang':'null','time':'null'}
-    # response = requests.get(url)
+    headers = {"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:70.0) Gecko/20100101 Firefox/70.0"}
+    req = requests.get(url,headers = headers)
+
+    return req.text
+
+
+
+
+def get_douban_inf(html):
+
     htmlfile = open(
-        "C:/Users/97607/Documents/GitHub/Python/PianYuan/html/mainWeb.html",
+        html,
         "r",
         encoding="utf8",
     )
     htmlpage = htmlfile.read()
 
     soup = BeautifulSoup(htmlpage, "html.parser")
-    # mov_info = soup(id="info")[0]
 
-    # for循环里面的东西不能重复
 
     # 评论
 
@@ -115,4 +119,7 @@ def get_douban_inf():
 
 # 主程序入口，最后封装请直接删除
 if __name__ == "__main__":
-    get_douban_inf()
+
+
+    html = get_html()
+    get_douban_inf(html)

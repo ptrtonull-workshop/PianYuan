@@ -32,9 +32,7 @@ def get_recommend(page, number):
     return film[number]["href"]
 
 
-# SUGGESTION:
-# This is a film_download_link, not the download function.
-# Can we change this function's name?
+
 def get_film_download(url):
     res = {"url": "null", "bt": "null", "subtitle": "null"}
     response = requests.get(url)

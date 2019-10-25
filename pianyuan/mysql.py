@@ -1,6 +1,6 @@
 import MySQLdb
 
-account = {"host": "localhost", "username": "root", "password": ""}
+account = {"host": "localhost", "username": "root", "password": "root"}
 
 
 def modify(host_t, username_t, password_t):
