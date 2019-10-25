@@ -1,15 +1,20 @@
 from bs4 import BeautifulSoup
 import requests
 import bs4
+from pianyuan import mysql
 import time
 
 mainWeb = "http://www.pianyuan.la"
 mv_web = "http://pianyuan.la/mv?order=score"
 
+acc = mysql.account
 
 # get film page from main page's recommend
 # page : page number of main recommend list
 # number : the film position in page
+
+
+# Question A: how can we get the recommend movies' name and match with its href?
 def get_recommend(page, number):
     if page == 1:
         web = mainWeb
@@ -27,15 +32,9 @@ def get_recommend(page, number):
     return film[number]["href"]
 
 
-
 # get film resurces download inf
 # url: res path, like http://pianyuan.la/r_ZZlK71840.html
 # return :{'url':the download link from pianyuan.la,'bt':magnet,'subtitle':subtitle download link(not direct link)}
-
-# get film resurces download inf
-# url: res path, like http://pianyuan.la/r_ZZlK71840.html
-# return :{'url':the download link from pianyuan.la,'bt':magnet,'subtitle':subtitle download link(not direct link)}
-
 def get_film_download(url):
     res = {"url": "null", "bt": "null", "subtitle": "null"}
     response = requests.get(url)
@@ -43,10 +42,7 @@ def get_film_download(url):
     film = soup.find_all(name="a", attrs={"class": "btn btn-danger btn-sm"})
     res["url"] = mainWeb + film[0]["href"]
     film = soup.find_all(name="a", attrs={"class": "btn btn-primary btn-sm"})
-    try:
-        res["bt"] = film[0]["href"]
-    except:
-        return False
+    res["bt"] = film[0]["href"]
     film = soup.find_all(name="a", attrs={"class": "btn btn-success btn-sm"})
     res["subtitle"] = film[0]["href"]
     return res
@@ -62,10 +58,7 @@ def get_link(url):
     douban = soup.find_all(name="a", attrs={"title": "豆瓣链接"})
     more = soup.find_all(name="a", attrs={"class": "text-danger"})
     res["douban"] = "https:" + douban[0]["href"]
-    try:
-        res["more"] = "http://pianyuan.la" + more[0]["href"]
-    except:
-        res["more"] = "null"
+    res["more"] = "http://pianyuan.la" + more[0]["href"]
     return res
 
 
@@ -164,32 +157,7 @@ def page_link(page):
 #
 #   ]
 # ]
-def get_list_all(page):
-    film_list = get_film_name_in_page(page)
-    all_res_in_film = []
-    for item in film_list:
-        all_res_ = get_more_film(item["url"])  # 取得一部电影的所有资源到all_res里
-        all_res_in_film.append(all_res_)
-    return all_res_in_film
-
-
-# get film inf from all film page
-# page : page number, likes 1, stand for http://pianyuan.la/mv?order=score&p=1
-# return:PS D:\File\vscode\pianyuan> python test.py
-# [
-# {
-#   'name': '今日比赛 (1964)',
-#   'url': 'http://pianyuan.la/m_DtwbEH3c0.html',
-#   'cover': 'http://pianyuan.la/Uploads/Picture/litpic/06/15Jun2018115715.jpg'
-# },
-# {
-#   'name': '久石让在武道馆：与宫崎骏动画一同走过的25年 (2008)',
-#   'url': 'http://pianyuan.la/m_Dw5bWHuc0.html',
-#   'cover': 'http://pianyuan.la/Uploads/Picture/litpic/07/24Jul2015082439.jpg'
-# },
-# ]
-def get_film_name_in_page(page):
-    file_inf = []
+def get_list(page):
     url = page_link(page)  # 取得这一页的地址
     all_res_in_film = []
     response = requests.get(url)
@@ -197,35 +165,23 @@ def get_film_name_in_page(page):
     items = soup.find_all(
         name="div", attrs={"class": "col-sm-3 col-md-3 col-xs-4 col-lg-2 nopl"}
     )  # 取得一个页面的所有电影
-    for i in items:
-        films = {"name": "null", "url": "null", "cover": "null"}
-        film = i.find(name="a")
+    for item in items:
+        film = item.find(name="a")
         film["href"] = "http://pianyuan.la" + film["href"]  # 取得一部电影的链接
-        films["url"] = film["href"]
-        films["name"] = film["title"]
-        films["cover"] = film.find(name="img")["data-original"]
-        films["cover"] = "http://pianyuan.la" + films["cover"]
-        file_inf.append(films)
-    return file_inf
+        all_res_ = get_more_film(film["href"])  # 取得一部电影的所有资源到all_res里
+        all_res_in_film.append(all_res_)
+    return all_res_in_film
 
 
-# the ui version of function get_list_all()
-def get_list(url, page, db):
-    from pianyuan import mysql
-
-    acc = mysql.account
+# get all res in a page and save to database
+# page: the page number you want to get, likes 1, it means http://pianyuan.la/mv?order=score&p=1
+# db: the database you create
+def spider_ui(page, db):
+    all_res_in_film = get_list(page)
     film_list_number = 0
-    response = requests.get(url)
-    soup = BeautifulSoup(response.text, "html.parser")
-    items = soup.find_all(
-        name="div", attrs={"class": "col-sm-3 col-md-3 col-xs-4 col-lg-2 nopl"}
-    )  # 取得一个页面的所有电影
     start = time.time()
     for x in range(0, 118, 3):  # 存一部电影的所有资源信息到数据库
-        i = items[film_list_number]  # 取其中一部电影
-        film = i.find(name="a")
-        film["href"] = "http://pianyuan.la" + film["href"]  # 取得一部电影的链接
-        all_res = get_more_film(film["href"])  # 取得一部电影的所有资源到all_res里
+        all_res = all_res_in_film[film_list_number]
         for r in all_res:  # 取得某一个资源
             mysql.add(r, db)
         num = x // 2
@@ -250,136 +206,12 @@ def get_list(url, page, db):
             film_list_number = film_list_number + 1
 
 
+# get the inf of page s to f to database db
+# s: start page, likes 1
+# f: final page , likes 2
+# db: the database you created used mysql.create
 def run(s, f, db):
     page = int(s)
     while page <= int(f):
-        get_list(page_link(page), page, db)
+        spider_ui(page, db)
         page = page + 1
-
-
-# get a film name from res url
-# url: film page link likes http://pianyuan.la/r_ZZzxDe3g0.html
-# return : 疯狂动物城 Zootopia (2016)
-def get_film_name(url):
-    response = requests.get(url)
-    soup = BeautifulSoup(response.text, "html.parser")
-    items = soup.find_all(name="div", attrs={"class": "col-sm-10"})
-    items = soup.find_all(name="h2")
-    return items[0].string
-
-
-# get page num
-# return: page(http://pianyuan.la/mv?order=socre)'s max page num
-def get_page_num():
-    num = 0
-    url = "http://pianyuan.la/mv?order=score&p=99999999999999999999"
-    response = requests.get(url)
-    soup = BeautifulSoup(response.text, "html.parser")
-    item = soup.find_all(name="span", attrs={"class": "current"})
-    return item[0].string
-
-
-# get a res num of a film
-# url: a film page link likes http://pianyuan.la/m_DtmvWHuc0.html
-# return: int type, the res num of a film likes 31
-def get_res_num(url):
-    nums = ""
-    response = requests.get(url)
-    soup = BeautifulSoup(response.text, "html.parser")
-    item = soup.find(name="small", attrs={"class": "label label-success"})
-    num = item.find(name="b")
-    nums = num.string
-    nums = nums.replace("(", "").replace(")", "")
-    return int(nums)
-
-
-# get film link in a res link
-# url: a res link likes http://pianyuan.la/r_ZZWl71ug0.html
-# return : a film link of  this res http://pianyuan.la/m_DtmvWHuc0.html
-def get_film_url_from_res(url):
-    response = requests.get(url)
-    soup = BeautifulSoup(response.text, "html.parser")
-    item = soup.find(name="div", attrs={"class": "col-sm-10"})
-    link = item.find(name="a")
-    link = link["href"]
-    link = "http://pianyuan.la" + link
-    return link
-
-
-# get film url in search result(only one page)
-# key: the key word, likes 你
-# return : a list of film result url:
-# [
-#    'http://pianyuan.la/m_DtDcWLcc0.html',
-#    'http://pianyuan.la/m_Dwm3WL6c0.html',
-# ]
-def get_search(key):
-    url = []
-    result = "http://pianyuan.la/search?q=%" + key
-    response = requests.get(result)
-    soup = BeautifulSoup(response.text, "html.parser")
-    item = soup.find_all(name="h4", attrs={"class": "nomt"})
-    for i in item:
-        url.append("http://pianyuan.la" + i.find(name="a")["href"])
-    return url
-
-
-# get film name according film page
-# url:film page link likes http://pianyuan.la/m_DtDcWLcc0.html
-# return the name I delect mulit chinese name
-# (When the film is from Chinese, the Chinese name and the original name are same)
-# original: 喜欢你 喜欢你 (2017)
-# after delecting: 喜欢你 (2017)
-def get_film_name_from_film_page(url):
-    flag = 0
-    tmp = ""
-    response = requests.get(url)
-    soup = BeautifulSoup(response.text, "html.parser")
-    item = soup.h1
-    for i in item:
-        i = i.replace("\n", "").replace("   ", "")
-        return delect_mulit_chinese(i)
-
-
-# delect useless Chinese in a Chinese film name
-# Str:original name: 喜欢你 喜欢你 (2017)
-# return : 喜欢你 (2017), of course, foreign film name had no changed
-def delect_mulit_chinese(Str):
-    temp = Str  # backup original name
-    one = ""  # create a str to save Chinese name
-    for j in Str:  # the Chinese name|original|year are apart of str:"__"
-        if j != " ":
-            one += j
-        else:
-            break
-    inf = []  # create a list to save different parts of Str
-    ch = one  # create Chinese name string
-    other = ""  # create original name string
-    Str = Str.replace(ch + "  ", "", 1)  # delect Chinese from Str
-    for m in Str:  # get original name from rest string
-        if m != " ":
-            other += m
-        else:
-            break
-    Str = Str.replace(
-        other + "  ", "", 1
-    )  # delect original name from rest string, get year inf
-    inf.append(ch)  # add Chinese name|original name|year to list one by one
-    inf.append(other)
-    inf.append(Str)
-    if (
-        inf[0] == inf[1]
-    ):  # if the film is Chinese one(Chinese name is same with Original name)
-        temp = temp.replace(
-            inf[1] + "  ", "", 1
-        )  # replay one Chinese name from Complete string
-    return temp
-
-
-# ge
-def get_douban_from_film(url):
-    response = requests.get(url)
-    soup = BeautifulSoup(response.text, "html.parser")
-    item = soup.find(name="a",attrs={"title":"豆瓣链接"})
-    item=item['href'].replace("//movie.douban.com/subject/","").replace("/","")
-    return item

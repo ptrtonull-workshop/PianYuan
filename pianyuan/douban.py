@@ -113,7 +113,6 @@ def get_douban_inf(html):
     print(date)
     print(runt)
     print(otna)
-
 """
 
 

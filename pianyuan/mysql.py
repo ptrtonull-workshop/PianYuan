@@ -39,7 +39,7 @@ def delect(db, table):
 
 def add(info, db):
     cursor = db.cursor()
-    sql = "insert into film(quality,moive_name,url,size,flash_time) values(%s,%s,%s,%s,%s)"
+    sql = "insert into (quality,moive_name,url,size,flash_time) values(%s,%s,%s,%s,%s)"
     cursor.execute(
         sql,
         (
@@ -62,3 +62,11 @@ def add_douban(info,db):
 def number(db):
     cur = db.cursor()
     print("共有%d条记录" % cur.execute("SELECT * FROM pianyuan.film;"))
+
+
+def clean(db):
+    cur = db.cursor()
+    sql = "use pianyuan;truncate table film;"
+    cur.execute(sql)
+    db.commit()
+    db.close()
