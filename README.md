@@ -2,10 +2,20 @@
 
 [English](./README-EN.md)
 
+## 安装
+```
+pip3 install pianyuan
+```
+或者
+```
+git clone https://github.com/ptrtonull-workshop/pianyuan
+cd pianyuan/
+python setup.py install
+```
 ## 爬取
 你可以使用以下命令，把[此处](http://pianyuan.la/mv?order=score)的电影到数据库里
 ```python
-python main.py -G start end host username password
+pianyuan -G start end host username password
 ```
 其中：
 - `-G`：代表`get`，获取信息
@@ -17,18 +27,18 @@ python main.py -G start end host username password
 
 如果你的数据库账号没有密码，即密码为空，那你可以执行下面的命令来达到相同的效果
 ```python
-python main.py -G start end host username
+pianyuan -g start end host username
 ```
 此外，你还可以使用以下命令来查看数据库中的数据条数
 ```
-python main.py -M number localhost root root
+pianyuan -M number localhost root root
 ```
 > 当然，如果你要看更详细的条目，请直接登录数据库查看
 ## 开发
 在你开发时，我们为你准备了协助性的命令脚本，格式为：
 
 ```python
-python main.py -S action
+pianyuan -S action
 ```
 其中：
 - `-S`：代表`shell`，标记此条语句执行的是一些协助性的命令脚本
@@ -39,16 +49,16 @@ python main.py -S action
 
 当你得到本项目的源码时，你第一步要做的就是安装项目所需要的初始化文件，你可以使用
 ```python
-python main.py -S init
+pianyuan -S init
 ```
 
 当你完成你的代码并且验证了要达到的功能后，你可以使用下面的命令来优化格式
 ```
-python main.py -S beautify
+pianyuan -S beautify
 ```
 当你要往仓库上传代码时，为了让你的CI能通过你的代码，你可以使用下面的命令查看代码中的格式错误，以确保你的代码符合规范。符合规范的情况为此命令结束后没有返回信息。
 ```python
-python main.py -S test
+pianyuan -S test
 ```
 
 ## 其它
@@ -72,7 +82,7 @@ cd ./pianyuan
 
 如果您第一次下载代码，则意味着您很可能没有本项目需要的相关包，请执行
 ```
-python main.py -S init
+pianyuan -S init
 ```
 来初始化项目来获得本项目需要的包
 #### 新建bug分支
@@ -86,7 +96,7 @@ git checkout bug#1
 #### 检查代码
 在本地文件夹中执行
 ```python
-python main.py -G 1 1 hostname username password
+pianyuan -G 1 1 hostname username password
 ```
 后，程序会自动写入数据到数据库，来测试你的代码的功能是否正常
 
@@ -97,8 +107,8 @@ python main.py -G 1 1 hostname username password
 
 在本地项目文件夹中执行
 ```pip
-python main.py -S beautify
-python main.py -S test
+pianyuan -S beautify
+pianyuan -S test
 ```
 来规范你的python代码，以符合flake8的规范。再使用flake8确认`main.py`中的语法错误和书写规范，如有不符合`flake`规范，提交的代码将无法通过`CI`的检查
 在这条语句中，`E501`的意思是：你最多只能在一行中写79个字符，这个规定过于苛刻，故我们将它删除了

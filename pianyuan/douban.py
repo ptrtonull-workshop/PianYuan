@@ -1,48 +1,51 @@
 from bs4 import BeautifulSoup
 
-# import requests
-# import bs4
+import requests
 # import re
 
+def get_html(url):
 
-def get_douban_inf():
-    # direct:导演  starring:演员  genre：
-    # inf = {'direct':'null','starring':'null','genre':'null','loca':'null','lang':'null','time':'null'}
-    # response = requests.get(url)
-    htmlfile = open("C:/Users/97607/Documents/GitHub/Python/PianYuan/html/mainWeb.html", "r", encoding="utf8")
+    headers = {"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:70.0) Gecko/20100101 Firefox/70.0"}
+    req = requests.get(url,headers = headers)
+
+    return req.text
+
+
+
+
+def get_douban_inf(html):
+
+    htmlfile = open(
+        html,
+        "r",
+        encoding="utf8",
+    )
     htmlpage = htmlfile.read()
 
     soup = BeautifulSoup(htmlpage, "html.parser")
-    # mov_info = soup(id="info")[0]
-
-    # for循环里面的东西不能重复
 
 
-
-    #评论
+    # 评论
 
     comment_info = soup.find_all(class_="comment")
     for child in comment_info:
         com_name_te = child.find_all(name="a", class_="")
         for childc1 in com_name_te:
             if childc1.string == "展开":
-                print() 
+                print()
             else:
                 print(childc1.string)
 
-        com_say = child.find_all(name="span",class_="short")
-        com_say_re = child.find_all(name="span",class_="hide-item full")
+        com_say = child.find_all(name="span", class_="short")
+        com_say_re = child.find_all(name="span", class_="hide-item full")
         for childc2 in com_say_re:
-            if childc2.string =="":
+            if childc2.string == "":
                 for childc3 in com_say:
                     print(childc3.string)
             else:
                 print(childc2.string)
 
-
-
-
-    #简介
+    # 简介
     """
     comment_info = soup.find_all(class_="comment")
     for child in comment_info:
@@ -116,4 +119,7 @@ def get_douban_inf():
 
 # 主程序入口，最后封装请直接删除
 if __name__ == "__main__":
-    get_douban_inf()
+
+
+    html = get_html()
+    get_douban_inf(html)

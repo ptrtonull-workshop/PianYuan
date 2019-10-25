@@ -27,9 +27,13 @@ def get_recommend(page, number):
     return film[number]["href"]
 
 
+<<<<<<< HEAD
 # get film resurces download inf
 # url: res path, like http://pianyuan.la/r_ZZlK71840.html
 # return :{'url':the download link from pianyuan.la,'bt':magnet,'subtitle':subtitle download link(not direct link)}
+=======
+
+>>>>>>> 2f5cdcc008652a8c0e9c764aa96e3f3f1876efc5
 def get_film_download(url):
     res = {"url": "null", "bt": "null", "subtitle": "null"}
     response = requests.get(url)
@@ -83,7 +87,7 @@ def get_inf(url):
     inf = {"name": "null", "number": "null", "douban": "null"}
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
-    douban = soup.find_all(name="a", attrs={"title": "豆瓣链接", "target": "_blank"})
+    douban = soup.find_all(name="a",s attrs={"title": "豆瓣链接", "target": "_blank"})
     douban = "https:" + douban[0]["href"]
     inf["douban"] = douban
     return soup.html.body.h1.string

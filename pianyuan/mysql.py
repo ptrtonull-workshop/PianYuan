@@ -1,6 +1,6 @@
 import MySQLdb
 
-account = {"host": "localhost", "username": "root", "password": ""}
+account = {"host": "localhost", "username": "root", "password": "root"}
 
 
 def modify(host_t, username_t, password_t):
@@ -51,6 +51,12 @@ def add(info, db):
         ),
     )
     db.commit()
+
+def add_douban(info,db):
+    cursor = db.cursor()
+    sql = "insert into douban()"
+
+
 
 
 def number(db):
