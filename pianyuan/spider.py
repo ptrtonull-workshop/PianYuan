@@ -68,7 +68,7 @@ def get_inf(url):
     inf = {"name": "null", "number": "null", "douban": "null"}
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
-    douban = soup.find_all(name="a", attrs={"title": "豆瓣链接", "target": "_blank"})
+    douban = soup.find_all(name="a",s attrs={"title": "豆瓣链接", "target": "_blank"})
     douban = "https:" + douban[0]["href"]
     inf["douban"] = douban
     print(soup.html.body.h1.string)

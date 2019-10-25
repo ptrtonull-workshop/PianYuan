@@ -52,6 +52,12 @@ def add(info, db):
     )
     db.commit()
 
+def add_douban(info,db):
+    cursor = db.cursor()
+    sql = "insert into douban()"
+
+
+
 
 def number(db):
     cur = db.cursor()
