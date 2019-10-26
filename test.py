@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 from tinydb import TinyDB,Query
 from pianyuan import spider
+import threading
 
 def get_comment(url):
     res=[]
@@ -20,9 +21,10 @@ def get_comment(url):
     print(id)
 
 
-db =TinyDB("url.json")
-def get_douban_link(end):
-    for i in range(end):
+
+def get_douban_link(start,end, name):
+    db =TinyDB('./data/'+name)
+    for i in range(start,end):
         i = i+1
         page = spider.get_film_name_in_page(i)
         for j in page:
@@ -33,6 +35,5 @@ def get_douban_link(end):
             db.insert(mo)
 
 
-#page = spider.get_film_name_from_film_page(1)
-
-get_douban_link(3)
+for i in range(6):
+	get_douban_link(i*20+1,(i+1)*20,str(i+1)+".json")
