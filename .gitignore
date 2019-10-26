@@ -10,9 +10,4 @@ dist
 build
 pianyuan/__pycache__/shell.cpython-37.pyc
 .vscode/settings.json
-<<<<<<< HEAD
 bt
-=======
-./test.py
-bt/
->>>>>>> feature#75

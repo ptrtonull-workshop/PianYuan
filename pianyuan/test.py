@@ -349,4 +349,3 @@ for a in range (1,30):
 '''
 
 
-print(get_link())
