@@ -9,8 +9,10 @@ import MySQLdb
 url = "https://movie.douban.com/subject/3097278/"
 
 
-headers = {"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:70.0) Gecko/20100101 Firefox/70.0"}
-req = requests.get(url,headers = headers)
+headers = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:70.0) Gecko/20100101 Firefox/70.0"
+}
+req = requests.get(url, headers=headers)
 htmlpage = req.text
 print("request Ok,and the req has back")
 douban_info = {}
@@ -34,6 +36,5 @@ for child in comment_info:
                 print(childc3.string)
                 print("done")
         else:
-                print(childc2.string)
-                print("done")
-
+            print(childc2.string)
+            print("done")

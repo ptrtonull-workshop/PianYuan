@@ -27,7 +27,6 @@ def get_recommend(page, number):
     return film[number]["href"]
 
 
-
 # get film resurces download inf
 # url: res path, like http://pianyuan.la/r_ZZlK71840.html
 # return :{'url':the download link from pianyuan.la,'bt':magnet,'subtitle':subtitle download link(not direct link)}
@@ -35,6 +34,7 @@ def get_recommend(page, number):
 # get film resurces download inf
 # url: res path, like http://pianyuan.la/r_ZZlK71840.html
 # return :{'url':the download link from pianyuan.la,'bt':magnet,'subtitle':subtitle download link(not direct link)}
+
 
 def get_film_download(url):
     res = {"url": "null", "bt": "null", "subtitle": "null"}
@@ -380,6 +380,6 @@ def delect_mulit_chinese(Str):
 def get_douban_from_film(url):
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
-    item = soup.find(name="a",attrs={"title":"豆瓣链接"})
-    item=item['href'].replace("//movie.douban.com/subject/","").replace("/","")
+    item = soup.find(name="a", attrs={"title": "豆瓣链接"})
+    item = item["href"].replace("//movie.douban.com/subject/", "").replace("/", "")
     return item
