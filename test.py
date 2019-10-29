@@ -22,7 +22,6 @@ def get_comment(url):
     print(id)
 
 
-
 # download douban id from page
 # start : start page number
 # end   : end page number
