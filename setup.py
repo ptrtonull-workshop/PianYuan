@@ -24,6 +24,7 @@ setuptools.setup(
         "black>=19.3b0",
         "twine>=2.0.0",
         "requests>=2.21.0",
+        "pick",
     ],
     entry_points={"console_scripts": ["pianyuan = pianyuan.main:main"]},
 )

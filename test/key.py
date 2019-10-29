@@ -1,0 +1,3 @@
+import keyboard
+
+print("yes")
