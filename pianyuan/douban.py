@@ -4,11 +4,12 @@ import requests
 import time
 import re
 import MySQLdb
+import json
 
 
 def open_data(num):
-    f = open("../data/" + str(num) + ".json", "r")
-    data = f.read()
+    f = open("../pianyuan/data/" + str(num) + ".json")
+    data = json.load(f)
     return data
 
 
@@ -19,7 +20,7 @@ class DoubanInfo:
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:70.0) Gecko/20100101 Firefox/70.0"
         }
         req = requests.get(url, headers=headers)
-        print(req)
+
         htmlpage = req.text
 
         douban_info = {}
@@ -94,7 +95,7 @@ class DoubanInfo:
 
 
 class DoubanDatabase:
-    def SaveInfo(self, douban_info):
+    def SaveInfo(self, douban_info,num):
         account = {"host": "localhost", "username": "root", "password": "root"}
         db = MySQLdb.connect(
             account["host"],
@@ -109,25 +110,26 @@ class DoubanDatabase:
         cursor.execute("USE DOUBAN;")
         cursor.execute(
             "CREATE TABLE IF NOT EXISTS INFORMATION"
-            + "(id varchar(50) primary key not null,"
+            + "(id varchar(100) primary key not null,"
             + "actor varchar(200) not null,"
-            + "location varchar(50) not null,"
-            + "language varchar(50) not null,"
-            + "runtime varchar(50) not null,"
+            + "writer varchar(100) not null,"
+            + "location varchar(100) not null,"
+            + "language varchar(100) not null,"
+            + "runtime varchar(100) not null,"
             + "othername varchar(200) not null,"
-            + "type varchar(50) not null,"
-            + "date varchar(50) not null,"
+            + "type varchar(100) not null,"
+            + "date varchar(100) not null,"
             + "introduction varchar(1000) not null,"
-            + "comment_name varchar(50) not null,"
+            + "comment_name varchar(100) not null,"
             + "comment varchar(3000) not null)"
         )
         try:
             Command_insert = (
-                "INSERT INTO INFORMATION VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+                "INSERT INTO INFORMATION VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
             )
             cursor.execute(
                 Command_insert,
-                (
+                (   str(num),
                     str(douban_info["actor"]),
                     str(douban_info["writer"]),
                     str(douban_info["location"]),
@@ -153,26 +155,33 @@ class DoubanDatabase:
 
 
 class DoubanSpider:
-    def spider(self):
+    def spider(self,num_in):
 
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:70.0) Gecko/20100101 Firefox/70.0"
         }
 
-        for a in range(1, 30):
-            temp = str(a)
-            num = self["_default"][temp]["id"]
+
+        for temp in range(1,684):
+            temp_num = str(temp)
+            num = num_in["_default"][temp_num]["id"]
             url = "https://movie.douban.com/subject/" + num + "/"
+
+            
             Douban_info = DoubanInfo()
             Douban_database = DoubanDatabase()
             douban_info = Douban_info.get_douban_inf(url)
-            Douban_database.SaveInfo(douban_info)
-            print(str(a) + " done")
-            time.sleep(0.1)
-
+            Douban_database.SaveInfo(douban_info,num)
+            print(str(temp) + " done")
+            time.sleep(0.3)
+            
 
 if __name__ == "__main__":
-    for i in range(6):
-        test = open_data(i + 1)
+
+
+    for i in range(5):
+        dir_in = open_data(i + 1)
         spider = DoubanSpider()
-        spider.spider(test)
+        spider.spider(dir_in)
+
+        
