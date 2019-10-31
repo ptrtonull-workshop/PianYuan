@@ -1,17 +1,43 @@
 from pick import pick
 import os
 
-
+#suffix_list=[".py",".yml"]
+suffix_list=[]
+def get_upper_level(path):
+    folder=''
+    tmp=[]
+    for i in path:
+        if i =='/':
+            tmp.append(folder)
+            folder=''
+        else:
+            folder+=i
+    del tmp[len(tmp)-1]
+    if len(tmp)!=0:
+        paths=''
+        for j in tmp:
+            paths+=j+'/'
+        return paths
+    else:
+        return False
 # the file name is python soruce code ?
 # name: a string like test.py
 # return : true or false
-def isPy(name):
+
+
+def isCode(name,suffix):
     lens = len(name)
-    code = name[lens - 3 :]
-    if code == ".py":
+    code = name[lens-len(suffix):]
+    if code == suffix:
         return True
     else:
         return False
+
+def isSuffix(name):
+    for i in suffix_list:
+        if isCode(name,i) is True:
+            return True
+    return False
 
 # the path is a folder?
 # path : target path like ./
@@ -46,13 +72,10 @@ def find_py_in_last_folder(path):
         list_temp.append(i)
 
     for a in list_temp:
-        if isPy(a):
+        if isSuffix(a):
             list.append(a)
 
     return list
-
-
-
 
 
 # find all python file in path
@@ -77,9 +100,24 @@ def find_py(path):
 # the folder have python file
 def have_py_in(listname):
     for i in listname:
-        if isPy(i):
+        if isSuffix(i):
             return True
     return False
+
+def get_py_in_folder(path):
+    tmp=[]
+    for i in os.listdir(path):
+        if os.path.isfile(path+i) is True:
+            if isSuffix(i) is True:
+                tmp.append(i)
+    return tmp
+
+def have_py_in_folder(path):
+    tmp=get_py_in_folder(path)
+    if len(tmp)==0:
+        return False
+    else:
+        return True
 
 # find all folder which has python file
 def return_py_folder(path):
@@ -93,25 +131,47 @@ def return_py_folder(path):
 
 
 def menu(path):
-    list_temp = []
-    list = []
+    if path[0]=='.':
+        path=path[1:]
+        path=os.getcwd().replace("\\","/")+path
+    if path:
+        list_temp = []
+        list = []
+        folder=[]
+        for i in os.listdir(path):  # get a file and folder
+                list_temp.append(i)
 
-    for i in os.listdir(path):
-        list_temp.append(i)
-
-    for a in list_temp:
-        if isPy(a):
-            list.append(a)
-
-    title = "Please choose a python file(press SPACE to mark, ENTER to continue): "
-    options = list
-    options.append(">quit<")
-    selected = pick(options, title, multi_select=True, min_selection_count=1)
-    name = selected[0][0]
-    code = selected[0][1]
-    if code != len(list) - 1:
-        shell = "python " + path+"/" + name
-        os.system(shell)
+        for b in list_temp:              #get folder
+            if isFolder(path+b) is True:
+                folder.append(b)
+        if len(suffix_list)==0:
+            list=list_temp
+        else:
+            for b in folder:                        # get the folder which have the file we want
+                if  have_py_in_folder(path+b+'/') is True:
+                    list.append(b)
+            for a in list_temp:      # get file we want
+                if isSuffix(a):
+                    list.append(a)
+        title = "Please choose a python file(press SPACE to mark, ENTER to continue): "
+        options = list
+        options.append(">back<")
+        options.append(">quit<")
+        selected = pick(options, title, multi_select=True, min_selection_count=1)
+        selected_name=selected[0][0]
+        selected_numb=selected[0][1]
+        if selected_numb == len(list) - 1:
+            quit()
+        elif selected_numb == len(list) - 2:
+            menu(get_upper_level(path))
+        else:
+            if isFolder(path+selected_name) is True:
+                    menu(path+selected_name+'/')
+            else:
+                    shell = "python " + path+"/" + selected_name
+                    os.system(shell)
     else:
-        quit()
+        print("The path is invaild!")
+
+menu("./")
 
