@@ -95,7 +95,7 @@ class DoubanInfo:
 
 
 class DoubanDatabase:
-    def SaveInfo(self, douban_info,num):
+    def SaveInfo(self, douban_info, num):
         account = {"host": "localhost", "username": "root", "password": "root"}
         db = MySQLdb.connect(
             account["host"],
@@ -129,7 +129,8 @@ class DoubanDatabase:
             )
             cursor.execute(
                 Command_insert,
-                (   str(num),
+                (
+                    str(num),
                     str(douban_info["actor"]),
                     str(douban_info["writer"]),
                     str(douban_info["location"]),
@@ -155,33 +156,28 @@ class DoubanDatabase:
 
 
 class DoubanSpider:
-    def spider(self,num_in):
+    def spider(self, num_in):
 
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:70.0) Gecko/20100101 Firefox/70.0"
         }
 
-
-        for temp in range(1,684):
+        for temp in range(1, 684):
             temp_num = str(temp)
             num = num_in["_default"][temp_num]["id"]
             url = "https://movie.douban.com/subject/" + num + "/"
 
-            
             Douban_info = DoubanInfo()
             Douban_database = DoubanDatabase()
             douban_info = Douban_info.get_douban_inf(url)
-            Douban_database.SaveInfo(douban_info,num)
+            Douban_database.SaveInfo(douban_info, num)
             print(str(temp) + " done")
             time.sleep(0.3)
-            
+
 
 if __name__ == "__main__":
-
 
     for i in range(5):
         dir_in = open_data(i + 1)
         spider = DoubanSpider()
         spider.spider(dir_in)
-
-        

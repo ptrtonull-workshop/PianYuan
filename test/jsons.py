@@ -1,13 +1,15 @@
 import json
-def apart(srting,char):
-    tmp=''
-    a=[]
+
+
+def apart(srting, char):
+    tmp = ""
+    a = []
     for i in srting:
-        if i==char:
+        if i == char:
             a.append(tmp)
-            tmp=''
+            tmp = ""
         else:
-            tmp+=i
+            tmp += i
     return a
 
 
@@ -21,32 +23,29 @@ def apart(srting,char):
 #   }
 # or file path like "../test.json"
 # return: b
-def path_to_dic(path,dic):
-    exm=""
+def path_to_dic(path, dic):
+    exm = ""
     if type(dic) == type(exm):
-        dic=json_file(dic)
-    path+='/'
-    path=path.replace("./","")
-    a= apart(path,"/")
+        dic = json_file(dic)
+    path += "/"
+    path = path.replace("./", "")
+    a = apart(path, "/")
     lens = len(a)
-    value=dic
+    value = dic
     for j in a:
-        value=value[j]
+        value = value[j]
     return value
 
-test={
-    "test":{
-        "app":{
-            "a":"b"
-        }
-    }
-}
+
+test = {"test": {"app": {"a": "b"}}}
+
 
 def json_file(path):
     f = open(path, "r")
     data = f.read()
-    json_string=json.loads(data)
+    json_string = json.loads(data)
     f.close()
     return json_string
 
-print(path_to_dic("./test/app/a",test))
+
+print(path_to_dic("./test/app/a", test))
