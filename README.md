@@ -1,9 +1,22 @@
-## pianyuan
-> 一个[片源网](pianyuan.la)的爬虫🥗
+# <p align="center">🥗pianyuan: 一个[片源网](pianyuan.la)的爬虫</p>
 
-[![Build Status](https://travis-ci.com/ptrtonull-workshop/PianYuan.svg?branch=master)](https://travis-ci.com/ptrtonull-workshop/PianYuan)
-
-[English](./README-EN.md)
+<p align="center">
+    <a href="https://github.com/ptrtonull-workshop/PianYuan/blob/master/README-EN.md">
+        <img src="https://img.shields.io/badge/README-English-brightgreen.svg">
+        </a>
+    <a href="">
+        <img src="https://img.shields.io/badge/状态-持续更新中-brightgreen.svg">
+        </a>
+    <a href="https://github.com/python/cpython">
+        <img src="https://img.shields.io/badge/Python-3.7.4-blue.svg">
+        </a>
+    <a href="https://github.com/ptrtonull-workshop/PianYuan">
+    <img src="https://img.shields.io/github/stars/ptrtonull-workshop/PianYuan.svg?style=social">
+        </a>
+     <a href="https://travis-ci.com/ptrtonull-workshop/PianYuan">
+        <img src="https://travis-ci.com/ptrtonull-workshop/PianYuan.svg?branch=master">
+        </a>
+</p>
 
 ## 安装
 ```
