@@ -1,7 +1,7 @@
 # <p align="center">🥗pianyuan: 一个[片源网](pianyuan.la)的爬虫</p>
 
 <p align="center">
-    <a href="https://github.com/ptrtonull-workshop/PianYuan/blob/master/README-EN.md">
+    <a href="https://github.com/ptrtonull-workshop/PianYuan/blob/master/README-EN.md    ">
         <img src="https://img.shields.io/badge/README-English-brightgreen.svg">
         </a>
     <a href="">
